@@ -3,14 +3,34 @@ package mancala.domain;
 public abstract class AbstractPit {
 
     private int stones;
+    private int player;
     private AbstractPit neighbour;
+    private CurrentPlayer cp;
 
-    public AbstractPit() {
-        this.stones = 0;
+    protected AbstractPit(int initStones, CurrentPlayer cp) {
+        this.stones = initStones;
+        this.player = cp.getCurrentPlayer();;
+        this.cp = cp;
     }
 
-    public AbstractPit(int initStones) {
-        this.stones = initStones;
+    protected AbstractPit(int initStones) {
+        this(initStones, new CurrentPlayer());
+    }
+
+    protected AbstractPit() {
+        this(0, new CurrentPlayer());
+    }
+
+    protected void addNeighbour(AbstractPit nextPit) {
+        this.neighbour = nextPit;
+    }
+
+    protected int getPlayer() {
+        return this.player;
+    }
+    
+    protected CurrentPlayer getCurrentPlayerObject() {
+        return cp;
     }
 
     public int getStones() {
@@ -19,5 +39,19 @@ public abstract class AbstractPit {
 
     public AbstractPit getNeighbour() {
         return this.neighbour;
+    }
+
+    public AbstractPit getPlayingPit(int id, int player) throws IllegalArgumentException {
+        if (!this.getCurrentPlayerObject().isValidPlayer(player)) {
+            throw new IllegalArgumentException("This pit does not exist in the game");
+        }
+        return this.getNeighbour().getPlayingPit(id, player);
+    }
+
+    public AbstractPit getGoalPit(int player) throws IllegalArgumentException {
+        if (!this.getCurrentPlayerObject().isValidPlayer(player)) {
+            throw new IllegalArgumentException("This pit does not exist in the game");
+        }
+        return this.getNeighbour().getGoalPit(player);
     }
 }
