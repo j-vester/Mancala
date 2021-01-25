@@ -41,14 +41,14 @@ public abstract class AbstractPit {
         return this.neighbour;
     }
 
-    public AbstractPit getPlayingPit(int id, int player) throws IllegalArgumentException {
+    public PlayingPit getPlayingPit(int id, int player) throws IllegalArgumentException {
         if (!this.getCurrentPlayerObject().isValidPlayer(player)) {
             throw new IllegalArgumentException("This pit does not exist in the game");
         }
         return this.getNeighbour().getPlayingPit(id, player);
     }
 
-    public AbstractPit getGoalPit(int player) throws IllegalArgumentException {
+    public GoalPit getGoalPit(int player) throws IllegalArgumentException {
         if (!this.getCurrentPlayerObject().isValidPlayer(player)) {
             throw new IllegalArgumentException("This pit does not exist in the game");
         }

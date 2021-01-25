@@ -52,14 +52,39 @@ public class PlayingPitTest {
         assertTrue(pit.getPlayer() == pit.getCurrentPlayerObject().getCurrentPlayer());
     }
 
-    @Test void playingPitOfPlayer2DoesNotExist() {
+    @Test
+    public void pitOfSecondNeigbourHasId3AndSamePlayer() {
         PlayingPit pit = new PlayingPit();
-        assertThrows(IllegalArgumentException.class, pit.getPlayingPit(1, 2));
+        PlayingPit secNeighbour = (PlayingPit) pit.getNeighbour().getNeighbour();
+        PlayingPit pitId3Player0 = pit.getPlayingPit(3, 0);
+        assertTrue(secNeighbour.equals(pitId3Player0));
     }
 
-    @Test void playingPitWithId7DoesNotExist() {
+    @Test
+    public void playingPitOfPlayer2DoesNotExist() {
         PlayingPit pit = new PlayingPit();
-        assertThrows(IllegalArgumentException.class, pit.getPlayingPit(7, pit.getPlayer()));
+        assertThrows(IllegalArgumentException.class, () -> {pit.getPlayingPit(1, 2);});
     }
 
+    @Test
+    public void playingPitWithId7DoesNotExist() {
+        PlayingPit pit = new PlayingPit();
+        assertThrows(IllegalArgumentException.class, () -> {pit.getPlayingPit(7, pit.getPlayer());});
+    }
+
+    @Test
+    public void otherSideOfFirstPitIsCorrectlyAssigned() {
+        PlayingPit pit = new PlayingPit();
+        PlayingPit os1 = pit.getOtherSide();
+        PlayingPit os2 = pit.getPlayingPit(6, 1);
+        assertTrue(os1.equals(os2));
+    }
+
+    @Test
+    public void otherSideOf2ndPlayerisCorrectlyAssigned() {
+        PlayingPit pit = new PlayingPit().getPlayingPit(1, 1);
+        PlayingPit os1 = pit.getOtherSide();
+        PlayingPit os2 = pit.getPlayingPit(6, 0);
+        assertTrue(os1.equals(os2));
+    }
 }

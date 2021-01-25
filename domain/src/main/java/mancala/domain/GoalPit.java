@@ -12,7 +12,7 @@ public class GoalPit extends AbstractPit {
     }
     
     @Override
-    public AbstractPit getGoalPit(int player) throws IllegalArgumentException {
+    public GoalPit getGoalPit(int player) throws IllegalArgumentException {
         if (!this.getCurrentPlayerObject().isValidPlayer(player)) {
             throw new IllegalArgumentException("This pit does not exist in the game");
         }
