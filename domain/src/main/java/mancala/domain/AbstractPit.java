@@ -41,8 +41,10 @@ public abstract class AbstractPit {
         return this.stones;
     }
 
-    protected void emptyPit() {
+    protected int emptyPitAndReturnStones() {
+        int collect = this.stones;
         this.stones = 0;
+        return collect;
     }
 
     public AbstractPit getNeighbour() {
@@ -68,4 +70,8 @@ public abstract class AbstractPit {
     protected void addStones(int stones) {
         this.stones += stones;
     }
+
+    public abstract boolean rowEmpty();
+
+    public abstract void passStonesToGoal(int stones);
 }

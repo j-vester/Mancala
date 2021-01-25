@@ -96,12 +96,21 @@ public class PlayingPitTest {
     }
 
     @Test
-    public void emptyPlayingPitCannotBePlayed() {
+    public void playingAnEmptyPitDoesNotChangeTheCurrentPlayer() {
         PlayingPit pit = new PlayingPit();
+        pit.playPit();
         int player = pit.getCurrentPlayer();
         pit.playPit();
-        pit.playPit();
         assertEquals(player, pit.getCurrentPlayer());
+    }
+
+    @Test
+    public void playingAnEmptyPitDoesNotChangeStonesInNextPit() {
+        PlayingPit pit = new PlayingPit();
+        pit.playPit();
+        int stonesBefore = pit.getNeighbour().getStones();
+        pit.playPit();
+        assertEquals(stonesBefore, pit.getNeighbour().getStones());
     }
 
     @Test
@@ -118,5 +127,46 @@ public class PlayingPitTest {
         int expectedStones = pit.getPlayingPit(6, pit.getPlayer()).getStones();
         pit.playPit();
         assertEquals(expectedStones, pit.getPlayingPit(6, pit.getPlayer()).getStones());
+    }
+
+    @Test
+    public void emptyRowIsCorrectlyAssessed() {
+        int[] startAt = new int[14];
+        PlayingPit pit = new PlayingPit(startAt);
+        assertTrue(pit.rowEmpty());
+    }
+
+    @Test
+    public void constructorWithInitialStonesArrayWorksProperly() {
+        int[] startAt = new int[14];
+        startAt[12] = 1;
+        PlayingPit pit = new PlayingPit(startAt).getOtherSide();
+        assertEquals(1, pit.getStones());
+    }
+
+    @Test
+    public void ifMoveEndsOnEmptyPitOfSelfItIsEmptied() {
+        int[] startAt = new int[14];
+        startAt[0] = 1;
+        PlayingPit pit = new PlayingPit(startAt);
+        pit.playPit();
+        assertEquals(0, pit.getNeighbour().getStones());
+    }
+
+    @Test
+    public void ifMoveEndsOnEmptyPitOtherSideIsEmptied() {
+        int[] startAt = new int[14];
+        startAt[0] = 1;
+        startAt[11] = 1;
+        PlayingPit pit = new PlayingPit(startAt);
+        pit.playPit();
+        assertEquals(0, pit.getPlayingPit(4, 1).getStones());
+    }
+
+    @Test
+    public void rowIsEmptyAfterAllStonesMoveToGoalPit() {
+        PlayingPit pit = new PlayingPit();
+        pit.emptyRowToGoalPit();
+        assertTrue(pit.rowEmpty());
     }
 }

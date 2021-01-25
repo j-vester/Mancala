@@ -60,8 +60,7 @@ public class PlayingPit extends AbstractPit {
 
     public void playPit() {
         if (this.getPlayer() == this.getCurrentPlayer() && this.getStones() > 0) {
-            int playedStones = this.getStones();
-            this.emptyPit();
+            int playedStones = this.emptyPitAndReturnStones();
             this.getNeighbour().passStonesAfterMove(playedStones);
         }
     }
@@ -69,7 +68,34 @@ public class PlayingPit extends AbstractPit {
     @Override
     public void passStonesAfterMove(int stones) {
         this.addStones(1);
-        if (stones > 1) this.getNeighbour().passStonesAfterMove(stones-1);
+        if (stones > 1) {
+            this.getNeighbour().passStonesAfterMove(stones-1);
+        } else {
+            this.getCurrentPlayerObject().switchPlayer();
+            if (this.getStones() == 1) {
+                int collectStones = this.emptyPitAndReturnStones() + this.getOtherSide().emptyPitAndReturnStones();
+                this.getNeighbour().passStonesToGoal(collectStones);
+            }
+        }
+    }
+
+    @Override
+    public boolean rowEmpty() {
+        return this.getNeighbour().rowEmpty();
+    }
+
+    @Override
+    public void passStonesToGoal(int stones) {
+        this.getNeighbour().passStonesToGoal(stones);
+    }
+
+    public void emptyRowToGoalPit() {
+        int collectStones = this.emptyPitAndReturnStones();
+        this.getNeighbour().passStonesToGoal(collectStones);
+        if (this.getNeighbour() instanceof PlayingPit) {
+            PlayingPit neighbour = (PlayingPit) this.getNeighbour();
+            neighbour.emptyRowToGoalPit();
+        }
     }
 
 }

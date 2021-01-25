@@ -34,4 +34,14 @@ public class GoalPit extends AbstractPit {
             this.getNeighbour().passStonesAfterMove(stones);
         }
     }
+
+    @Override
+    public boolean rowEmpty() {
+        return true;
+    }
+
+    @Override
+    public void passStonesToGoal(int stones) {
+        this.addStones(stones);
+    }
 }  
