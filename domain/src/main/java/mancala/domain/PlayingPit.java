@@ -1,16 +1,22 @@
 package mancala.domain;
 
 import java.lang.IllegalArgumentException;
+import java.util.Arrays;
 public class PlayingPit extends AbstractPit {
     private int id;
-    private static final int NR_INIT_STONES = 4;
+    private static final int[] NR_INIT_STONES = {4,4,4,4,4,4,0,4,4,4,4,4,4,0};
     private static final int MAX_PLAYINGPITS = 6;
     private PlayingPit otherSide;
 
     public PlayingPit() {
-        super(NR_INIT_STONES);
+        this(NR_INIT_STONES);
+    }
+
+    public PlayingPit(int[] initialStones) {
+        super(initialStones[0]);
         this.id = 1;
-        PlayingPit nextPit = new PlayingPit(this.id+1, this.getCurrentPlayerObject());
+        initialStones = Arrays.copyOfRange(initialStones, 1, initialStones.length);
+        PlayingPit nextPit = new PlayingPit(initialStones, this.id+1, this.getCurrentPlayerObject());
         this.addNeighbour(nextPit);
         this.getGoalPit(this.getCurrentPlayerObject().getIdlePlayer()).addNeighbour(this);
         int otherId = MAX_PLAYINGPITS+1-this.id;
@@ -18,14 +24,15 @@ public class PlayingPit extends AbstractPit {
         this.otherSide.otherSide = this;
     }
 
-    public PlayingPit(int id, CurrentPlayer cp) {
-        super(NR_INIT_STONES, cp);
+    public PlayingPit(int[] initialStones, int id, CurrentPlayer cp) {
+        super(initialStones[0], cp);
         this.id = id;
+        initialStones = Arrays.copyOfRange(initialStones, 1, initialStones.length);
         if (this.id < MAX_PLAYINGPITS) {
-            PlayingPit nextPit = new PlayingPit(this.id+1, cp);
+            PlayingPit nextPit = new PlayingPit(initialStones, this.id+1, cp);
             this.addNeighbour(nextPit);
         } else {
-            GoalPit nextPit = new GoalPit(cp);
+            GoalPit nextPit = new GoalPit(initialStones, cp);
             this.addNeighbour(nextPit);
         }
         if (this.getPlayer() == 0) {

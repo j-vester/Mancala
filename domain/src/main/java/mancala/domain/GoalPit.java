@@ -1,12 +1,14 @@
 package mancala.domain;
 
+import java.util.Arrays;
 public class GoalPit extends AbstractPit {
     
-    public GoalPit(CurrentPlayer cp) {
-        super(0,cp);
+    public GoalPit(int[] initialStones, CurrentPlayer cp) {
+        super(initialStones[0],cp);
         cp.switchPlayer();
+        initialStones = Arrays.copyOfRange(initialStones, 1, initialStones.length);
         if (cp.getCurrentPlayer() != 0 ) { 
-            PlayingPit nextPit = new PlayingPit(1,cp);
+            PlayingPit nextPit = new PlayingPit(initialStones,1,cp);
             this.addNeighbour(nextPit);
         }
     }

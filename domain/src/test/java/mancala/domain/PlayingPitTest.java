@@ -111,4 +111,12 @@ public class PlayingPitTest {
         pit.playPit();
         assertEquals(expectedStones, pit.getNeighbour().getStones());
     }
+
+    @Test
+    public void fifthNeighbourHasNoExtraStoneAfterFirstMove() {
+        PlayingPit pit = new PlayingPit();
+        int expectedStones = pit.getPlayingPit(6, pit.getPlayer()).getStones();
+        pit.playPit();
+        assertEquals(expectedStones, pit.getPlayingPit(6, pit.getPlayer()).getStones());
+    }
 }
