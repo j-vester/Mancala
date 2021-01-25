@@ -49,7 +49,7 @@ public class PlayingPitTest {
     @Test
     public void currentPlayerIsPlayer0AfterInitialization() {
         PlayingPit pit = new PlayingPit();
-        assertTrue(pit.getPlayer() == pit.getCurrentPlayerObject().getCurrentPlayer());
+        assertTrue(pit.getPlayer() == pit.getCurrentPlayer());
     }
 
     @Test
@@ -86,5 +86,29 @@ public class PlayingPitTest {
         PlayingPit os1 = pit.getOtherSide();
         PlayingPit os2 = pit.getPlayingPit(6, 0);
         assertTrue(os1.equals(os2));
+    }
+
+    @Test
+    public void playingPitIsEmptyAfterPlay() {
+        PlayingPit pit = new PlayingPit();
+        pit.playPit();
+        assertEquals(0, pit.getStones());
+    }
+
+    @Test
+    public void emptyPlayingPitCannotBePlayed() {
+        PlayingPit pit = new PlayingPit();
+        int player = pit.getCurrentPlayer();
+        pit.playPit();
+        pit.playPit();
+        assertEquals(player, pit.getCurrentPlayer());
+    }
+
+    @Test
+    public void nextPitHasOneStoneExtraAfterPlay() {
+        PlayingPit pit = new PlayingPit();
+        int expectedStones = pit.getNeighbour().getStones() + 1;
+        pit.playPit();
+        assertEquals(expectedStones, pit.getNeighbour().getStones());
     }
 }

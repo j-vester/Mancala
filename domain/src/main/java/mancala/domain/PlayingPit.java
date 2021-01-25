@@ -50,4 +50,19 @@ public class PlayingPit extends AbstractPit {
     public PlayingPit getOtherSide() {
         return this.otherSide;
     }
+
+    public void playPit() {
+        if (this.getPlayer() == this.getCurrentPlayer() && this.getStones() > 0) {
+            int playedStones = this.getStones();
+            this.emptyPit();
+            this.getNeighbour().passStonesAfterMove(playedStones);
+        }
+    }
+
+    @Override
+    public void passStonesAfterMove(int stones) {
+        this.addStones(1);
+        if (stones > 1) this.getNeighbour().passStonesAfterMove(stones-1);
+    }
+
 }

@@ -33,8 +33,16 @@ public abstract class AbstractPit {
         return cp;
     }
 
+    protected int getCurrentPlayer() {
+        return cp.getCurrentPlayer();
+    }
+
     public int getStones() {
         return this.stones;
+    }
+
+    protected void emptyPit() {
+        this.stones = 0;
     }
 
     public AbstractPit getNeighbour() {
@@ -53,5 +61,11 @@ public abstract class AbstractPit {
             throw new IllegalArgumentException("This pit does not exist in the game");
         }
         return this.getNeighbour().getGoalPit(player);
+    }
+
+    public abstract void passStonesAfterMove(int stones);
+
+    protected void addStones(int stones) {
+        this.stones += stones;
     }
 }

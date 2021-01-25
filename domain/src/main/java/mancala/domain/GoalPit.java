@@ -22,4 +22,14 @@ public class GoalPit extends AbstractPit {
             return this.getNeighbour().getGoalPit(player);
         }
     }
-}
+
+    @Override
+    public void passStonesAfterMove(int stones) {
+        if (this.getPlayer() == this.getCurrentPlayer()) {
+            this.addStones(1);
+            if (stones > 1) this.getNeighbour().passStonesAfterMove(stones-1);
+        } else {
+            this.getNeighbour().passStonesAfterMove(stones);
+        }
+    }
+}  
