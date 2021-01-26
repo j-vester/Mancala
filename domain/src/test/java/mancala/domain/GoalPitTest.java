@@ -41,6 +41,17 @@ public class GoalPitTest {
     }
 
     @Test
+    public void goalPitOfIdlePlayerReceivesNoStones() {
+        int[] startAt = new int[14];
+        startAt[0] = 14;
+        PlayingPit pit = new PlayingPit(startAt);
+        GoalPit idleGoal = pit.getGoalPit(pit.getCurrentPlayerObject().getIdlePlayer());
+        int expectedStones = idleGoal.getStones();
+        pit.playPit();
+        assertEquals(expectedStones, idleGoal.getStones());
+    }
+
+    @Test
     public void ifMoveEndsOnEmptyPitStonesMoveToGoalPit() {
         int[] startAt = new int[14];
         startAt[0] = 1;
