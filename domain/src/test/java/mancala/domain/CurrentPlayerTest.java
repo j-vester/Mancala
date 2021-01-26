@@ -31,4 +31,21 @@ public class CurrentPlayerTest {
         int playerAfter = pit.getCurrentPlayer();
         assertTrue(playerBefore == playerAfter);
     }
+
+    @Test
+    public void playingAnEmptyPitDoesNotChangeTheCurrentPlayer() {
+        PlayingPit pit = new PlayingPit();
+        pit.playPit();
+        int player = pit.getCurrentPlayer();
+        pit.playPit();
+        assertEquals(player, pit.getCurrentPlayer());
+    }
+
+    @Test
+    public void playingAPitOfIdlePlayerDoesNotChangeTheCurrentPlayer() {
+        PlayingPit pit = new PlayingPit().getOtherSide();
+        int player = pit.getCurrentPlayer();
+        pit.playPit();
+        assertEquals(player, pit.getCurrentPlayer());
+    }
 }

@@ -27,16 +27,16 @@ public class GoalPitTest {
 
     @Test
     public void goalPitPlayerCorrespondsToPredecessingPlayingPits() {
-        PlayingPit pit = new PlayingPit();
-        GoalPit goal = pit.getGoalPit(pit.getPlayer());
-        assertEquals(0, goal.getPlayer());
+        PlayingPit pit = new PlayingPit().getPlayingPit(6, 0);
+        GoalPit goal = (GoalPit) pit.getNeighbour();
+        assertEquals(pit.getPlayer(), goal.getPlayer());
     }
 
     @Test
     public void goalPitReceivesOneStoneAfterMove() {
-        PlayingPit pit = new PlayingPit();
+        PlayingPit pit = new PlayingPit().getPlayingPit(3, 0);
         int expectedStones = pit.getGoalPit(pit.getPlayer()).getStones() + 1;
-        pit.getPlayingPit(3, pit.getPlayer()).playPit();
+        pit.playPit();
         assertEquals(expectedStones, pit.getGoalPit(pit.getPlayer()).getStones());
     }
 

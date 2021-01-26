@@ -1,9 +1,6 @@
 package mancala.domain;
 
 import org.junit.jupiter.api.Test;
-
-import jdk.jfr.Timestamp;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayingPitTest {
@@ -47,9 +44,21 @@ public class PlayingPitTest {
     }
 
     @Test
+    public void playerOfOtherSidePitIs1() {
+        PlayingPit pit = new PlayingPit().getOtherSide();
+        assertEquals(1, pit.getPlayer());
+    }
+
+    @Test
+    public void playerOfNeighbouringPlayingPitsIsSame() {
+        PlayingPit pit = new PlayingPit();
+        PlayingPit neighbour = (PlayingPit) pit.getNeighbour();
+        assertEquals(pit.getPlayer(), neighbour.getPlayer());
+    }
+    @Test
     public void currentPlayerIsPlayer0AfterInitialization() {
         PlayingPit pit = new PlayingPit();
-        assertTrue(pit.getPlayer() == pit.getCurrentPlayer());
+        assertEquals(pit.getPlayer(), pit.getCurrentPlayer());
     }
 
     @Test
@@ -58,6 +67,13 @@ public class PlayingPitTest {
         PlayingPit secNeighbour = (PlayingPit) pit.getNeighbour().getNeighbour();
         PlayingPit pitId3Player0 = pit.getPlayingPit(3, 0);
         assertTrue(secNeighbour.equals(pitId3Player0));
+    }
+
+    @Test
+    public void initialPitIsNeighbourOfGoalPit() {
+        PlayingPit pit = new PlayingPit();
+        GoalPit goalOtherSide = pit.getGoalPit(pit.getCurrentPlayerObject().getIdlePlayer());
+        assertTrue(goalOtherSide.getNeighbour().equals(pit));
     }
 
     @Test
@@ -96,14 +112,20 @@ public class PlayingPitTest {
     }
 
     @Test
-    public void playingAnEmptyPitDoesNotChangeTheCurrentPlayer() {
-        PlayingPit pit = new PlayingPit();
+    public void playingAPitOfIdlePlayerDoesNotChangeStonesInPit() {
+        PlayingPit pit = new PlayingPit().getOtherSide();
+        int expectedStones = pit.getStones();
         pit.playPit();
-        int player = pit.getCurrentPlayer();
-        pit.playPit();
-        assertEquals(player, pit.getCurrentPlayer());
+        assertEquals(expectedStones, pit.getStones());
     }
 
+    @Test
+    public void playingAPitOfIdlePlayerDoesNotChangeStonesInItsNeighbour() {
+        PlayingPit pit = new PlayingPit().getOtherSide();
+        int expectedStones = pit.getNeighbour().getStones();
+        pit.playPit();
+        assertEquals(expectedStones, pit.getNeighbour().getStones());
+    }
     @Test
     public void playingAnEmptyPitDoesNotChangeStonesInNextPit() {
         PlayingPit pit = new PlayingPit();
