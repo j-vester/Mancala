@@ -13,18 +13,18 @@ public class GoalPitTest {
         assertEquals(0,pit.getGoalPit(pit.getPlayer()).getStones());
     }
 
-    @Test void secondGoalPitHasInitializedPlayingPitAsNeighbour() {
-        PlayingPit pit = new PlayingPit();
-        GoalPit goalOther = pit.getGoalPit(pit.getCurrentPlayerObject().getIdlePlayer());
-        assertTrue(pit.equals(goalOther.getNeighbour()));
-    }
-
     @Test
     public void goalPitOfPlayer2DoesNotExist() {
         PlayingPit pit = new PlayingPit();
         assertThrows(IllegalArgumentException.class, () -> {pit.getGoalPit(2);});
     }
 
+    @Test void secondGoalPitHasInitializedPlayingPitAsNeighbour() {
+        PlayingPit pit = new PlayingPit();
+        GoalPit goalOther = pit.getGoalPit(pit.getCurrentPlayerObject().getIdlePlayer());
+        assertTrue(pit.equals(goalOther.getNeighbour()));
+    }
+    
     @Test
     public void goalPitPlayerCorrespondsToPredecessingPlayingPits() {
         PlayingPit pit = new PlayingPit().getPlayingPit(6, 0);

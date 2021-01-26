@@ -21,35 +21,11 @@ public abstract class AbstractPit {
         this(0, new CurrentPlayer());
     }
 
-    protected void addNeighbour(AbstractPit nextPit) {
-        this.neighbour = nextPit;
-    }
+    public abstract boolean rowEmpty();
 
-    protected int getPlayer() {
-        return this.player;
-    }
-    
-    protected CurrentPlayer getCurrentPlayerObject() {
-        return cp;
-    }
+    public abstract void passStonesAfterMove(int stones);
 
-    protected int getCurrentPlayer() {
-        return cp.getCurrentPlayer();
-    }
-
-    public int getStones() {
-        return this.stones;
-    }
-
-    protected int emptyPitAndReturnStones() {
-        int collect = this.stones;
-        this.stones = 0;
-        return collect;
-    }
-
-    public AbstractPit getNeighbour() {
-        return this.neighbour;
-    }
+    public abstract void passStonesToGoal(int stones);
 
     public PlayingPit getPlayingPit(int id, int player) throws IllegalArgumentException {
         if (!this.getCurrentPlayerObject().isValidPlayer(player)) {
@@ -65,13 +41,37 @@ public abstract class AbstractPit {
         return this.getNeighbour().getGoalPit(player);
     }
 
-    public abstract void passStonesAfterMove(int stones);
+    public int getCurrentPlayer() {
+        return cp.getCurrentPlayer();
+    }
+
+    public int getStones() {
+        return this.stones;
+    }
+
+    protected void addNeighbour(AbstractPit nextPit) {
+        this.neighbour = nextPit;
+    }
+
+    protected int getPlayer() {
+        return this.player;
+    }
+    
+    protected CurrentPlayer getCurrentPlayerObject() {
+        return cp;
+    }
+
+    protected int emptyPitAndReturnStones() {
+        int collect = this.stones;
+        this.stones = 0;
+        return collect;
+    }
+
+    public AbstractPit getNeighbour() {
+        return this.neighbour;
+    }
 
     protected void addStones(int stones) {
         this.stones += stones;
     }
-
-    public abstract boolean rowEmpty();
-
-    public abstract void passStonesToGoal(int stones);
 }

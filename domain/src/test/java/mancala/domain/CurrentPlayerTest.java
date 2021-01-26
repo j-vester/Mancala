@@ -1,9 +1,6 @@
 package mancala.domain;
 
 import org.junit.jupiter.api.Test;
-
-import jdk.jfr.Timestamp;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CurrentPlayerTest {

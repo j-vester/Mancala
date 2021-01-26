@@ -12,17 +12,10 @@ public class GoalPit extends AbstractPit {
             this.addNeighbour(nextPit);
         }
     }
-    
+
     @Override
-    public GoalPit getGoalPit(int player) throws IllegalArgumentException {
-        if (!this.getCurrentPlayerObject().isValidPlayer(player)) {
-            throw new IllegalArgumentException("This pit does not exist in the game");
-        }
-        if (this.getPlayer() == player){
-            return this;
-        } else {
-            return this.getNeighbour().getGoalPit(player);
-        }
+    public boolean rowEmpty() {
+        return true;
     }
 
     @Override
@@ -36,12 +29,19 @@ public class GoalPit extends AbstractPit {
     }
 
     @Override
-    public boolean rowEmpty() {
-        return true;
-    }
-
-    @Override
     public void passStonesToGoal(int stones) {
         this.addStones(stones);
+    }
+    
+    @Override
+    public GoalPit getGoalPit(int player) throws IllegalArgumentException {
+        if (!this.getCurrentPlayerObject().isValidPlayer(player)) {
+            throw new IllegalArgumentException("This pit does not exist in the game");
+        }
+        if (this.getPlayer() == player){
+            return this;
+        } else {
+            return this.getNeighbour().getGoalPit(player);
+        }
     }
 }  

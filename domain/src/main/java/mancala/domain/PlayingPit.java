@@ -43,6 +43,30 @@ public class PlayingPit extends AbstractPit {
     }
 
     @Override
+    public boolean rowEmpty() {
+        return this.getNeighbour().rowEmpty();
+    }
+
+    @Override
+    public void passStonesAfterMove(int stones) {
+        this.addStones(1);
+        if (stones > 1) {
+            this.getNeighbour().passStonesAfterMove(stones-1);
+        } else {
+            this.getCurrentPlayerObject().switchPlayer();
+            if (this.getStones() == 1) {
+                int collectStones = this.emptyPitAndReturnStones() + this.getOtherSide().emptyPitAndReturnStones();
+                this.getNeighbour().passStonesToGoal(collectStones);
+            }
+        }
+    }
+
+    @Override
+    public void passStonesToGoal(int stones) {
+        this.getNeighbour().passStonesToGoal(stones);
+    }
+
+    @Override
     public PlayingPit getPlayingPit(int id, int player) throws IllegalArgumentException {
         if (id < 1 || id > MAX_PLAYINGPITS || !this.getCurrentPlayerObject().isValidPlayer(player)) {
             throw new IllegalArgumentException("This pit does not exist in the game");
@@ -63,30 +87,6 @@ public class PlayingPit extends AbstractPit {
             int playedStones = this.emptyPitAndReturnStones();
             this.getNeighbour().passStonesAfterMove(playedStones);
         }
-    }
-
-    @Override
-    public void passStonesAfterMove(int stones) {
-        this.addStones(1);
-        if (stones > 1) {
-            this.getNeighbour().passStonesAfterMove(stones-1);
-        } else {
-            this.getCurrentPlayerObject().switchPlayer();
-            if (this.getStones() == 1) {
-                int collectStones = this.emptyPitAndReturnStones() + this.getOtherSide().emptyPitAndReturnStones();
-                this.getNeighbour().passStonesToGoal(collectStones);
-            }
-        }
-    }
-
-    @Override
-    public boolean rowEmpty() {
-        return this.getNeighbour().rowEmpty();
-    }
-
-    @Override
-    public void passStonesToGoal(int stones) {
-        this.getNeighbour().passStonesToGoal(stones);
     }
 
     public void emptyRowToGoalPit() {

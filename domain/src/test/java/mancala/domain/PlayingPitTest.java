@@ -12,6 +12,14 @@ public class PlayingPitTest {
     }
 
     @Test
+    public void constructorWithInitialStonesArrayWorksProperly() {
+        int[] startAt = new int[14];
+        startAt[12] = 1;
+        PlayingPit pit = new PlayingPit(startAt).getOtherSide();
+        assertEquals(1, pit.getStones());
+    }
+
+    @Test
     public void aPlayingPitHasANeighbourPlayingPit() {
         PlayingPit pit = new PlayingPit();
         assertTrue(pit.getNeighbour() instanceof PlayingPit);
@@ -21,12 +29,20 @@ public class PlayingPitTest {
     public void aPlayingPitsNeighbourHasANeighbourPlayingPit() {
         PlayingPit pit = new PlayingPit();
         assertTrue(pit.getNeighbour().getNeighbour() instanceof PlayingPit);
+    } 
+
+    @Test
+    public void pitOfSecondNeigbourHasId3AndSamePlayer() {
+        PlayingPit pit = new PlayingPit();
+        PlayingPit secNeighbour = (PlayingPit) pit.getNeighbour().getNeighbour();
+        PlayingPit pitId3Player0 = pit.getPlayingPit(3, 0);
+        assertTrue(secNeighbour.equals(pitId3Player0));
     }
 
     @Test
     public void sixthNeighbourOfPlayingPitIsGoalPit() {
-        PlayingPit pit = new PlayingPit();
-        assertTrue(pit.getNeighbour().getNeighbour().getNeighbour().getNeighbour().getNeighbour().getNeighbour() instanceof GoalPit);
+        PlayingPit pit = new PlayingPit().getPlayingPit(6, 0);
+        assertTrue(pit.getNeighbour() instanceof GoalPit);
     }
 
     @Test
@@ -55,25 +71,11 @@ public class PlayingPitTest {
         PlayingPit neighbour = (PlayingPit) pit.getNeighbour();
         assertEquals(pit.getPlayer(), neighbour.getPlayer());
     }
+
     @Test
     public void currentPlayerIsPlayer0AfterInitialization() {
         PlayingPit pit = new PlayingPit();
         assertEquals(pit.getPlayer(), pit.getCurrentPlayer());
-    }
-
-    @Test
-    public void pitOfSecondNeigbourHasId3AndSamePlayer() {
-        PlayingPit pit = new PlayingPit();
-        PlayingPit secNeighbour = (PlayingPit) pit.getNeighbour().getNeighbour();
-        PlayingPit pitId3Player0 = pit.getPlayingPit(3, 0);
-        assertTrue(secNeighbour.equals(pitId3Player0));
-    }
-
-    @Test
-    public void initialPitIsNeighbourOfGoalPit() {
-        PlayingPit pit = new PlayingPit();
-        GoalPit goalOtherSide = pit.getGoalPit(pit.getCurrentPlayerObject().getIdlePlayer());
-        assertTrue(goalOtherSide.getNeighbour().equals(pit));
     }
 
     @Test
@@ -127,7 +129,7 @@ public class PlayingPitTest {
         assertEquals(expectedStones, pit.getNeighbour().getStones());
     }
     @Test
-    public void playingAnEmptyPitDoesNotChangeStonesInNextPit() {
+    public void playingAnEmptyPitDoesNotChangeStonesInItsNeighbour() {
         PlayingPit pit = new PlayingPit();
         pit.playPit();
         int stonesBefore = pit.getNeighbour().getStones();
@@ -136,7 +138,7 @@ public class PlayingPitTest {
     }
 
     @Test
-    public void nextPitHasOneStoneExtraAfterPlay() {
+    public void neighbourHasOneStoneExtraAfterPlay() {
         PlayingPit pit = new PlayingPit();
         int expectedStones = pit.getNeighbour().getStones() + 1;
         pit.playPit();
@@ -150,22 +152,7 @@ public class PlayingPitTest {
         pit.playPit();
         assertEquals(expectedStones, pit.getPlayingPit(6, pit.getPlayer()).getStones());
     }
-
-    @Test
-    public void emptyRowIsCorrectlyAssessed() {
-        int[] startAt = new int[14];
-        PlayingPit pit = new PlayingPit(startAt);
-        assertTrue(pit.rowEmpty());
-    }
-
-    @Test
-    public void constructorWithInitialStonesArrayWorksProperly() {
-        int[] startAt = new int[14];
-        startAt[12] = 1;
-        PlayingPit pit = new PlayingPit(startAt).getOtherSide();
-        assertEquals(1, pit.getStones());
-    }
-
+    
     @Test
     public void ifMoveEndsOnEmptyPitOfSelfItIsEmptied() {
         int[] startAt = new int[14];
@@ -183,6 +170,13 @@ public class PlayingPitTest {
         PlayingPit pit = new PlayingPit(startAt);
         pit.playPit();
         assertEquals(0, pit.getPlayingPit(4, 1).getStones());
+    }
+
+    @Test
+    public void emptyRowIsCorrectlyAssessed() {
+        int[] startAt = new int[14];
+        PlayingPit pit = new PlayingPit(startAt);
+        assertTrue(pit.rowEmpty());
     }
 
     @Test
