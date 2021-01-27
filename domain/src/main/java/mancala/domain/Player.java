@@ -18,6 +18,10 @@ public class Player {
         return currentPlayer;
     }
 
+    public Player getOpponent() {
+        return this.opponent;
+    }
+
     public void turnOver() {
         this.currentPlayer = false;
         this.opponent.turn();

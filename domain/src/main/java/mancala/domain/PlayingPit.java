@@ -6,48 +6,40 @@ public class PlayingPit extends AbstractPit {
     private int id;
     private static final int[] NR_INIT_STONES = {4,4,4,4,4,4,0,4,4,4,4,4,4,0};
     private static final int MAX_PLAYINGPITS = 6;
-    private PlayingPit otherSide;
 
     public PlayingPit() {
         this(NR_INIT_STONES);
     }
 
     public PlayingPit(int[] initialStones) {
-        // verwijs naar volgende constructor
-        super(initialStones[0]);
+        super(initialStones[0], new Player());
         this.id = 1;
         initialStones = Arrays.copyOfRange(initialStones, 1, initialStones.length);
-        PlayingPit nextPit = new PlayingPit(initialStones, this.id+1, this.getCurrentPlayerObject());
-        this.addNeighbour(nextPit);
-        // geef 'this' mee aan constructors
-        this.getGoalPit(this.getCurrentPlayerObject().getIdlePlayer()).addNeighbour(this);
-        int otherId = MAX_PLAYINGPITS+1-this.id;
-        this.otherSide = this.getPlayingPit(otherId,this.getCurrentPlayerObject().getIdlePlayer());
-        this.otherSide.otherSide = this;
+        this.addNeighbour(new PlayingPit(initialStones, this.id+1, this.getPlayer(), this));
     }
 
-    public PlayingPit(int[] initialStones, int id, CurrentPlayer cp) {
-        super(initialStones[0], cp);
+    public PlayingPit(int[] initialStones, int id, Player p, PlayingPit firstpit) {
+        super(initialStones[0], p);
         this.id = id;
         initialStones = Arrays.copyOfRange(initialStones, 1, initialStones.length);
         if (this.id < MAX_PLAYINGPITS) {
-            PlayingPit nextPit = new PlayingPit(initialStones, this.id+1, cp);
-            this.addNeighbour(nextPit);
+            this.addNeighbour(new PlayingPit(initialStones, id+1, p, firstpit));
         } else {
-            GoalPit nextPit = new GoalPit(initialStones, cp);
-            this.addNeighbour(nextPit);
-        }
-        if (this.getPlayer() == 0) {
-            int otherId = MAX_PLAYINGPITS+1-this.id;
-            this.otherSide = this.getPlayingPit(otherId, 1);
-            this.otherSide.otherSide = this;
+            this.addNeighbour(new GoalPit(initialStones, p, firstpit));
         }
     }
 
     @Override
     public boolean rowEmpty() {
-        // if statement
-        return this.getNeighbour().rowEmpty();
+        if (this.getStones() <= 0) return this.getNeighbour().rowEmpty();
+        return false;
+    }
+
+    public void playPit() {
+        if (this.getPlayer().isCurrentPlayer() && this.getStones() > 0) {
+            int playedStones = this.emptyPitAndReturnStones();
+            this.getNeighbour().passStonesAfterMove(playedStones);
+        }
     }
 
     @Override
@@ -56,7 +48,7 @@ public class PlayingPit extends AbstractPit {
         if (stones > 1) {
             this.getNeighbour().passStonesAfterMove(stones-1);
         } else {
-            this.getCurrentPlayerObject().switchPlayer();
+            this.getPlayer().turnOver();
             if (this.getStones() == 1) {
                 int collectStones = this.emptyPitAndReturnStones() + this.getOtherSide().emptyPitAndReturnStones();
                 this.getNeighbour().passStonesToGoal(collectStones);
@@ -70,11 +62,11 @@ public class PlayingPit extends AbstractPit {
     }
 
     @Override
-    public PlayingPit getPlayingPit(int id, int player) throws IllegalArgumentException {
-        if (id < 1 || id > MAX_PLAYINGPITS || !this.getCurrentPlayerObject().isValidPlayer(player)) {
+    public PlayingPit getPlayingPit(int id, Player player) throws IllegalArgumentException {
+        if (id < 1 || id > MAX_PLAYINGPITS) {
             throw new IllegalArgumentException("This pit does not exist in the game");
         }
-        if (this.id == id && this.getPlayer() == player) {
+        if (this.id == id && this.getPlayer().equals(player)) {
             return this;
         } else {
             return this.getNeighbour().getPlayingPit(id, player);
@@ -82,15 +74,8 @@ public class PlayingPit extends AbstractPit {
     }
 
     public PlayingPit getOtherSide() {
-        // rewrite to use getPlayingPit
-        return this.otherSide;
-    }
-
-    public void playPit() {
-        if (this.getPlayer() == this.getCurrentPlayer() && this.getStones() > 0) {
-            int playedStones = this.emptyPitAndReturnStones();
-            this.getNeighbour().passStonesAfterMove(playedStones);
-        }
+        int idOther = MAX_PLAYINGPITS + 1 - this.id;
+        return this.getPlayingPit(idOther, this.getPlayer().getOpponent());
     }
 
     public void emptyRowToGoalPit() {
@@ -100,6 +85,12 @@ public class PlayingPit extends AbstractPit {
             PlayingPit neighbour = (PlayingPit) this.getNeighbour();
             neighbour.emptyRowToGoalPit();
         }
+    }
+
+    private int emptyPitAndReturnStones() {
+        int collect = this.getStones();
+        this.addStones(-collect);
+        return collect;
     }
 
 }

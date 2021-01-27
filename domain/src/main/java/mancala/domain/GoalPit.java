@@ -3,13 +3,13 @@ package mancala.domain;
 import java.util.Arrays;
 public class GoalPit extends AbstractPit {
     
-    public GoalPit(int[] initialStones, CurrentPlayer cp) {
-        super(initialStones[0],cp);
-        cp.switchPlayer();
+    public GoalPit(int[] initialStones, Player p, PlayingPit firstpit) {
+        super(initialStones[0],p);
         initialStones = Arrays.copyOfRange(initialStones, 1, initialStones.length);
-        if (cp.getCurrentPlayer() != 0 ) { 
-            PlayingPit nextPit = new PlayingPit(initialStones,1,cp);
-            this.addNeighbour(nextPit);
+        if (p.isCurrentPlayer()) { 
+            this.addNeighbour(new PlayingPit(initialStones, 1, p.getOpponent(), firstpit));
+        } else {
+            this.addNeighbour(firstpit);
         }
     }
 
@@ -20,7 +20,7 @@ public class GoalPit extends AbstractPit {
 
     @Override
     public void passStonesAfterMove(int stones) {
-        if (this.getPlayer() == this.getCurrentPlayer()) {
+        if (this.getPlayer().isCurrentPlayer()) {
             this.addStones(1);
             if (stones > 1) this.getNeighbour().passStonesAfterMove(stones-1);
         } else {
@@ -34,11 +34,8 @@ public class GoalPit extends AbstractPit {
     }
     
     @Override
-    public GoalPit getGoalPit(int player) throws IllegalArgumentException {
-        if (!this.getCurrentPlayerObject().isValidPlayer(player)) {
-            throw new IllegalArgumentException("This pit does not exist in the game");
-        }
-        if (this.getPlayer() == player){
+    public GoalPit getGoalPit(Player player) {
+        if (this.getPlayer().equals(player)){
             return this;
         } else {
             return this.getNeighbour().getGoalPit(player);
