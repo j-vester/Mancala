@@ -78,13 +78,11 @@ public class PlayingPit extends AbstractPit {
         return this.getPlayingPit(idOther, this.getPlayer().getOpponent());
     }
 
+    @Override
     public void emptyRowToGoalPit() {
         int collectStones = this.emptyPitAndReturnStones();
         this.getNeighbour().passStonesToGoal(collectStones);
-        if (this.getNeighbour() instanceof PlayingPit) {
-            PlayingPit neighbour = (PlayingPit) this.getNeighbour();
-            neighbour.emptyRowToGoalPit();
-        }
+        this.getNeighbour().emptyRowToGoalPit();
     }
 
     private int emptyPitAndReturnStones() {

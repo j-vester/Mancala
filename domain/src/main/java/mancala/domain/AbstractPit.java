@@ -37,6 +37,8 @@ public abstract class AbstractPit {
         return this.getNeighbour().getGoalPit(player);
     }
 
+    public void emptyRowToGoalPit() {}
+
     protected void addStones(int stones) {
         this.stones += stones;
     }
