@@ -22,6 +22,7 @@ public class PlayingPitTest {
     @Test
     public void aPlayingPitHasANeighbourPlayingPit() {
         PlayingPit pit = new PlayingPit();
+        // geen instanceof gebruiken in testen --> zelfd speler
         assertTrue(pit.getNeighbour() instanceof PlayingPit);
     }
 

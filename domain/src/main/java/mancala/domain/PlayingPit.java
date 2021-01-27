@@ -13,11 +13,13 @@ public class PlayingPit extends AbstractPit {
     }
 
     public PlayingPit(int[] initialStones) {
+        // verwijs naar volgende constructor
         super(initialStones[0]);
         this.id = 1;
         initialStones = Arrays.copyOfRange(initialStones, 1, initialStones.length);
         PlayingPit nextPit = new PlayingPit(initialStones, this.id+1, this.getCurrentPlayerObject());
         this.addNeighbour(nextPit);
+        // geef 'this' mee aan constructors
         this.getGoalPit(this.getCurrentPlayerObject().getIdlePlayer()).addNeighbour(this);
         int otherId = MAX_PLAYINGPITS+1-this.id;
         this.otherSide = this.getPlayingPit(otherId,this.getCurrentPlayerObject().getIdlePlayer());
@@ -44,6 +46,7 @@ public class PlayingPit extends AbstractPit {
 
     @Override
     public boolean rowEmpty() {
+        // if statement
         return this.getNeighbour().rowEmpty();
     }
 
@@ -79,6 +82,7 @@ public class PlayingPit extends AbstractPit {
     }
 
     public PlayingPit getOtherSide() {
+        // rewrite to use getPlayingPit
         return this.otherSide;
     }
 
