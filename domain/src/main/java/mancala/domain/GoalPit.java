@@ -17,21 +17,6 @@ public class GoalPit extends AbstractPit {
     public boolean rowEmpty() {
         return true;
     }
-
-    @Override
-    public void passStonesAfterMove(int stones) {
-        if (this.getPlayer().isCurrentPlayer()) {
-            this.addStones(1);
-            if (stones > 1) this.getNeighbour().passStonesAfterMove(stones-1);
-        } else {
-            this.getNeighbour().passStonesAfterMove(stones);
-        }
-    }
-
-    @Override
-    public void passStonesToGoal(int stones) {
-        this.addStones(stones);
-    }
     
     @Override
     public GoalPit getGoalPit(Player player) {
@@ -45,5 +30,20 @@ public class GoalPit extends AbstractPit {
     @Override
     public void playPit() throws UnsupportedOperationException {
         throw new UnsupportedOperationException("A goal pit cannot be played.");
+    }
+
+    @Override
+    protected void passStonesAfterMove(int stones) {
+        if (this.getPlayer().isCurrentPlayer()) {
+            this.addStones(1);
+            if (stones > 1) this.getNeighbour().passStonesAfterMove(stones-1);
+        } else {
+            this.getNeighbour().passStonesAfterMove(stones);
+        }
+    }
+
+    @Override
+    protected void passStonesToGoal(int stones) {
+        this.addStones(stones);
     }
 }  

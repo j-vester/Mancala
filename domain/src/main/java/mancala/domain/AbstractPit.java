@@ -13,11 +13,11 @@ public abstract class AbstractPit {
 
     public abstract boolean rowEmpty();
 
-    public abstract void passStonesAfterMove(int stones);
-
-    public abstract void passStonesToGoal(int stones);
-
     public abstract void playPit();
+
+    protected abstract void passStonesAfterMove(int stones);
+
+    protected abstract void passStonesToGoal(int stones);
 
     public int getStones() {
         return this.stones;

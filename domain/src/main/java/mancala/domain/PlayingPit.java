@@ -44,25 +44,6 @@ public class PlayingPit extends AbstractPit {
     }
 
     @Override
-    public void passStonesAfterMove(int stones) {
-        this.addStones(1);
-        if (stones > 1) {
-            this.getNeighbour().passStonesAfterMove(stones-1);
-        } else {
-            this.getPlayer().turnOver();
-            if (this.getStones() == 1) {
-                int collectStones = this.emptyPitAndReturnStones() + this.getOtherSide().emptyPitAndReturnStones();
-                this.getNeighbour().passStonesToGoal(collectStones);
-            }
-        }
-    }
-
-    @Override
-    public void passStonesToGoal(int stones) {
-        this.getNeighbour().passStonesToGoal(stones);
-    }
-
-    @Override
     public PlayingPit getPlayingPit(int id, Player player) throws IllegalArgumentException {
         if (id < 1 || id > MAX_PLAYINGPITS) {
             throw new IllegalArgumentException("This pit does not exist in the game.");
@@ -84,6 +65,25 @@ public class PlayingPit extends AbstractPit {
         int collectStones = this.emptyPitAndReturnStones();
         this.getNeighbour().passStonesToGoal(collectStones);
         this.getNeighbour().emptyRowToGoalPit();
+    }
+
+    @Override
+    protected void passStonesAfterMove(int stones) {
+        this.addStones(1);
+        if (stones > 1) {
+            this.getNeighbour().passStonesAfterMove(stones-1);
+        } else {
+            this.getPlayer().turnOver();
+            if (this.getStones() == 1) {
+                int collectStones = this.emptyPitAndReturnStones() + this.getOtherSide().emptyPitAndReturnStones();
+                this.getNeighbour().passStonesToGoal(collectStones);
+            }
+        }
+    }
+
+    @Override
+    protected void passStonesToGoal(int stones) {
+        this.getNeighbour().passStonesToGoal(stones);
     }
 
     private int emptyPitAndReturnStones() {
