@@ -35,11 +35,12 @@ public class PlayingPit extends AbstractPit {
         return false;
     }
 
-    public void playPit() {
-        if (this.getPlayer().isCurrentPlayer() && this.getStones() > 0) {
-            int playedStones = this.emptyPitAndReturnStones();
-            this.getNeighbour().passStonesAfterMove(playedStones);
-        }
+    @Override
+    public void playPit() throws UnsupportedOperationException {
+        if (!this.getPlayer().isCurrentPlayer()) throw new UnsupportedOperationException("This pit cannot be played by current player.");
+        else if (this.getStones() <= 0) throw new UnsupportedOperationException("An empty pit cannot be played.");
+        int playedStones = this.emptyPitAndReturnStones();
+        this.getNeighbour().passStonesAfterMove(playedStones);
     }
 
     @Override
@@ -64,7 +65,7 @@ public class PlayingPit extends AbstractPit {
     @Override
     public PlayingPit getPlayingPit(int id, Player player) throws IllegalArgumentException {
         if (id < 1 || id > MAX_PLAYINGPITS) {
-            throw new IllegalArgumentException("This pit does not exist in the game");
+            throw new IllegalArgumentException("This pit does not exist in the game.");
         }
         if (this.id == id && this.getPlayer().equals(player)) {
             return this;

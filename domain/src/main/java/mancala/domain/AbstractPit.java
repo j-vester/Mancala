@@ -17,6 +17,8 @@ public abstract class AbstractPit {
 
     public abstract void passStonesToGoal(int stones);
 
+    public abstract void playPit();
+
     public int getStones() {
         return this.stones;
     }

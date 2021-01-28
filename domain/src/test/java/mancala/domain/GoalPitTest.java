@@ -74,4 +74,11 @@ public class GoalPitTest {
         pit.emptyRowToGoalPit();
         assertEquals(6, pit.getGoalPit(pit.getPlayer()).getStones());
     }
+
+    @Test
+    public void goalPitCannotBePlayed() {
+        PlayingPit pit = new PlayingPit();
+        GoalPit goal = pit.getGoalPit(pit.getPlayer());
+        assertThrows(UnsupportedOperationException.class, () -> {goal.playPit();});
+    }
 }

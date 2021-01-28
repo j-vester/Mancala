@@ -41,4 +41,9 @@ public class GoalPit extends AbstractPit {
             return this.getNeighbour().getGoalPit(player);
         }
     }
+
+    @Override
+    public void playPit() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("A goal pit cannot be played.");
+    }
 }  

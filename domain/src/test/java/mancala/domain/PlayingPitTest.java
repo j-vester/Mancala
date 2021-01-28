@@ -57,28 +57,15 @@ public class PlayingPitTest {
     }
 
     @Test
-    public void playingAPitOfIdlePlayerDoesNotChangeStonesInPit() {
+    public void playingAPitOfIdleIsImpossible() {
         PlayingPit pit = new PlayingPit().getOtherSide();
-        int expectedStones = pit.getStones();
-        pit.playPit();
-        assertEquals(expectedStones, pit.getStones());
+        assertThrows(UnsupportedOperationException.class, () -> {pit.playPit();});
     }
 
     @Test
-    public void playingAPitOfIdlePlayerDoesNotChangeStonesInItsNeighbour() {
-        PlayingPit pit = new PlayingPit().getOtherSide();
-        int expectedStones = pit.getNeighbour().getStones();
-        pit.playPit();
-        assertEquals(expectedStones, pit.getNeighbour().getStones());
-    }
-
-    @Test
-    public void playingAnEmptyPitDoesNotChangeStonesInItsNeighbour() {
-        PlayingPit pit = new PlayingPit();
-        pit.playPit();
-        int stonesBefore = pit.getNeighbour().getStones();
-        pit.playPit();
-        assertEquals(stonesBefore, pit.getNeighbour().getStones());
+    public void playingAnEmptyPitIsImpossible() {
+        PlayingPit pit = new PlayingPit(new int[14]);
+        assertThrows(UnsupportedOperationException.class, () -> {pit.playPit();});
     }
 
     @Test
