@@ -1,6 +1,5 @@
 package mancala.domain;
 
-import java.lang.IllegalArgumentException;
 public class PlayingPit extends AbstractPit {
     private int id;
     private int pitsPerPlayer;
@@ -25,11 +24,10 @@ public class PlayingPit extends AbstractPit {
         return false;
     }
 
-    // Maak eigen Exception class
     @Override
-    public void playPit() throws UnsupportedOperationException {
-        if (!this.getPlayer().isCurrentPlayer()) throw new UnsupportedOperationException("This pit cannot be played by current player.");
-        else if (this.getStones() <= 0) throw new UnsupportedOperationException("An empty pit cannot be played.");
+    public void playPit() throws MancalaException {
+        if (!this.getPlayer().isCurrentPlayer()) throw new MancalaException("This pit cannot be played by current player.");
+        else if (this.getStones() <= 0) throw new MancalaException("An empty pit cannot be played.");
         int playedStones = this.emptyPitAndReturnStones();
         this.getNeighbour().passStonesAfterMove(playedStones);
     }
@@ -49,6 +47,11 @@ public class PlayingPit extends AbstractPit {
     public PlayingPit getOtherSide() {
         int idOther = this.pitsPerPlayer + 1 - this.id;
         return this.getPlayingPit(idOther, this.getPlayer().getOpponent());
+    }
+
+    @Override
+    public Kalaha getKalaha(Player player) {
+        return this.getNeighbour().getKalaha(player);
     }
 
     @Override

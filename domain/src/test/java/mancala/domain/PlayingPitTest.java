@@ -58,14 +58,14 @@ public class PlayingPitTest {
     @Test
     public void playingAPitOfIdleIsImpossible() {
         PlayingPit pit = (PlayingPit) new Kalaha().getNeighbour();
-        assertThrows(UnsupportedOperationException.class, () -> {pit.playPit();});
+        assertThrows(MancalaException.class, () -> {pit.playPit();});
     }
 
     @Test
     public void playingAnEmptyPitIsImpossible() {
         Kalaha kalaha = new Kalaha(0,6);
         PlayingPit pit = kalaha.getPlayingPit(1, kalaha.getPlayer());
-        assertThrows(UnsupportedOperationException.class, () -> {pit.playPit();});
+        assertThrows(MancalaException.class, () -> {pit.playPit();});
     }
 
     @Test

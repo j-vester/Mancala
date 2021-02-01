@@ -11,14 +11,6 @@ public abstract class AbstractPit {
         this.player = p;
     }
 
-    public abstract boolean rowEmpty();
-
-    public abstract void playPit();
-
-    protected abstract void passStonesAfterMove(int stones);
-
-    protected abstract void passStonesToGoal(int stones);
-
     public int getStones() {
         return this.stones;
     }
@@ -30,17 +22,21 @@ public abstract class AbstractPit {
     public AbstractPit getNeighbour() {
         return this.neighbour;
     }
-    //maak volgende drie abstract
-    public PlayingPit getPlayingPit(int id, Player player) {
-        return this.getNeighbour().getPlayingPit(id, player);
-    }
 
-    public Kalaha getKalaha(Player player) {
-        return this.getNeighbour().getKalaha(player);
-    }
+    public abstract boolean rowEmpty();
+
+    public abstract void playPit();
+
+    public abstract PlayingPit getPlayingPit(int id, Player player);
+
+    public abstract Kalaha getKalaha(Player player);
     
     // maak private? 
-    public void emptyRowToKalaha() {}
+    public abstract void emptyRowToKalaha();
+
+    protected abstract void passStonesAfterMove(int stones);
+
+    protected abstract void passStonesToGoal(int stones);
 
     protected void addStones(int stones) {
         this.stones += stones;

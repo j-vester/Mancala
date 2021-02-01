@@ -24,6 +24,11 @@ public class Kalaha extends AbstractPit {
     public boolean rowEmpty() {
         return true;
     }
+
+    @Override
+    public  PlayingPit getPlayingPit(int id, Player player) {
+        return this.getNeighbour().getPlayingPit(id, player);
+    }
     
     @Override
     public Kalaha getKalaha(Player player) {
@@ -35,9 +40,12 @@ public class Kalaha extends AbstractPit {
     }
 
     @Override
-    public void playPit() throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("A goal pit cannot be played.");
+    public void playPit() throws MancalaException {
+        throw new MancalaException("A goal pit cannot be played.");
     }
+
+    @Override
+    public void emptyRowToKalaha() {}
 
     @Override
     protected void passStonesAfterMove(int stones) {
