@@ -1,16 +1,23 @@
 package mancala.domain;
 
-import java.util.Arrays;
+// Kalaha ipv GoalPit
 public class GoalPit extends AbstractPit {
+
+    private static final int USUAL_INIT_STONES = 4;
+    private static final int USUAL_MAX_PITS = 6;
+
+    public GoalPit() {
+        this(USUAL_INIT_STONES, USUAL_MAX_PITS);
+    }
+
+    public GoalPit(int nrStones, int nrPits) {
+        super(0, new Player());
+        this.addNeighbour(new PlayingPit(nrStones, nrPits, 1, this.getPlayer().getOpponent(), this));
+    }
     
-    public GoalPit(int[] initialStones, Player p, PlayingPit firstpit) {
-        super(initialStones[0],p);
-        initialStones = Arrays.copyOfRange(initialStones, 1, initialStones.length);
-        if (p.isCurrentPlayer()) { 
-            this.addNeighbour(new PlayingPit(initialStones, 1, p.getOpponent(), firstpit));
-        } else {
-            this.addNeighbour(firstpit);
-        }
+    public GoalPit(int nrStones, int nrPits, Player p, GoalPit firstpit) {
+        super(0,p);
+        this.addNeighbour(new PlayingPit(nrStones, nrPits, 1, this.getPlayer().getOpponent(), firstpit));
     }
 
     @Override

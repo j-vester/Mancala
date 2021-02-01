@@ -3,82 +3,65 @@ package mancala.domain;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Arrays;
-
 public class GoalPitTest {
 
     @Test
     public void aGoalPitStartsWith0stones() {
-        PlayingPit pit = new PlayingPit();
-        assertEquals(0,pit.getGoalPit(pit.getPlayer()).getStones());
+        GoalPit goal = new GoalPit();
+        assertEquals(0,goal.getStones());
     }
 
-    @Test void secondGoalPitHasInitializedPlayingPitAsNeighbour() {
-        PlayingPit pit = new PlayingPit();
-        GoalPit goalOther = pit.getGoalPit(pit.getPlayer().getOpponent());
-        assertTrue(pit.equals(goalOther.getNeighbour()));
-    }
-    
-    @Test
-    public void goalPitPlayerCorrespondsToPredecessingPlayingPits() {
-        PlayingPit pit = new PlayingPit();
-        PlayingPit pit6 = pit.getPlayingPit(6, pit.getPlayer());
-        GoalPit goal = (GoalPit) pit6.getNeighbour();
-        assertEquals(pit.getPlayer(), goal.getPlayer());
-    }
-
-    @Test
-    public void goalPitReceivesOneStoneAfterMove() {
-        PlayingPit pit = new PlayingPit();
-        PlayingPit pit3 = pit.getPlayingPit(3, pit.getPlayer());
-        int expectedStones = pit.getGoalPit(pit.getPlayer()).getStones() + 1;
-        pit3.playPit();
-        assertEquals(expectedStones, pit.getGoalPit(pit.getPlayer()).getStones());
-    }
-
-    @Test
-    public void goalPitOfIdlePlayerReceivesNoStones() {
-        int[] startAt = new int[14];
-        startAt[0] = 14;
-        PlayingPit pit = new PlayingPit(startAt);
-        GoalPit idleGoal = pit.getGoalPit(pit.getPlayer().getOpponent());
-        int expectedStones = idleGoal.getStones();
-        pit.playPit();
-        assertEquals(expectedStones, idleGoal.getStones());
-    }
-
-    @Test
-    public void ifMoveEndsOnEmptyPitStonesMoveToGoalPit() {
-        int[] startAt = new int[14];
-        startAt[0] = 1;
-        PlayingPit pit = new PlayingPit(startAt);
-        pit.playPit();
-        assertEquals(1, pit.getGoalPit(pit.getPlayer()).getStones());
-    }
-
-    @Test
-    public void ifMoveEndsOnEmptyPitOtherSideStonesMoveToGoal() {
-        int[] startAt = new int[14];
-        startAt[0] = 1;
-        startAt[11] = 1;
-        PlayingPit pit = new PlayingPit(startAt);
-        pit.playPit();
-        assertEquals(2, pit.getGoalPit(pit.getPlayer()).getStones());
-    }
-
-    @Test
-    public void stonesMoveToGoalIfRowIsEmptied() {
-        int[] startAt = new int[14];
-        Arrays.fill(startAt, 0, 6, 1);
-        PlayingPit pit = new PlayingPit(startAt);
-        pit.emptyRowToGoalPit();
-        assertEquals(6, pit.getGoalPit(pit.getPlayer()).getStones());
+    @Test void lastPlayingPitHasInitializedGoalPitAsNeighbour() {
+        GoalPit goal = new GoalPit();
+        PlayingPit lastPit = goal.getPlayingPit(6, goal.getPlayer());
+        assertTrue(goal.equals(lastPit.getNeighbour()));
     }
 
     @Test
     public void goalPitCannotBePlayed() {
-        PlayingPit pit = new PlayingPit();
-        GoalPit goal = pit.getGoalPit(pit.getPlayer());
+        GoalPit goal = new GoalPit();
         assertThrows(UnsupportedOperationException.class, () -> {goal.playPit();});
+    }
+
+    @Test
+    public void goalPitReceivesOneStoneAfterMove() {
+        GoalPit goal = new GoalPit();
+        PlayingPit pit = goal.getPlayingPit(3, goal.getPlayer());
+        pit.playPit();
+        assertEquals(1, goal.getStones());
+    }
+
+    @Test
+    public void goalPitOfIdlePlayerReceivesNoStones() {
+        GoalPit goal = new GoalPit(3,1);
+        GoalPit goalOther = goal.getGoalPit(goal.getPlayer().getOpponent());
+        goal.getPlayingPit(1, goal.getPlayer()).playPit();
+        assertEquals(0, goalOther.getStones());
+    }
+
+    @Test
+    public void ifMoveEndsOnEmptyPitStonesMoveToGoalPit() {
+        GoalPit goal = new GoalPit(0,2);
+        PlayingPit pit = goal.getPlayingPit(1, goal.getPlayer());
+        pit.addStones(1);
+        pit.playPit();
+        assertEquals(1, goal.getStones());
+    }
+
+    @Test
+    public void ifMoveEndsOnEmptyPitOtherSideStonesMoveToGoal() {
+        GoalPit goal = new GoalPit(0,2);
+        PlayingPit pit = goal.getPlayingPit(1, goal.getPlayer());
+        pit.addStones(1);
+        goal.getPlayingPit(1, goal.getPlayer().getOpponent()).addStones(1);
+        pit.playPit();
+        assertEquals(2, goal.getStones());
+    }
+
+    @Test
+    public void stonesMoveToGoalIfRowIsEmptied() {
+        GoalPit goal = new GoalPit(1,6);
+        goal.getPlayingPit(1, goal.getPlayer()).emptyRowToGoalPit();
+        assertEquals(6, goal.getStones());
     }
 }

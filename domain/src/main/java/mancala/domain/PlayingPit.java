@@ -1,40 +1,31 @@
 package mancala.domain;
 
 import java.lang.IllegalArgumentException;
-import java.util.Arrays;
 public class PlayingPit extends AbstractPit {
     private int id;
-    private static final int[] NR_INIT_STONES = {4,4,4,4,4,4,0,4,4,4,4,4,4,0};
-    private static final int MAX_PLAYINGPITS = 6;
+    private int pitsPerPlayer;
 
-    public PlayingPit() {
-        this(NR_INIT_STONES);
-    }
-
-    public PlayingPit(int[] initialStones) {
-        super(initialStones[0], new Player());
-        this.id = 1;
-        initialStones = Arrays.copyOfRange(initialStones, 1, initialStones.length);
-        this.addNeighbour(new PlayingPit(initialStones, this.id+1, this.getPlayer(), this));
-    }
-
-    public PlayingPit(int[] initialStones, int id, Player p, PlayingPit firstpit) {
-        super(initialStones[0], p);
+    public PlayingPit(int nrStones, int nrPits, int id, Player p, GoalPit firstpit) {
+        super(nrStones, p);
         this.id = id;
-        initialStones = Arrays.copyOfRange(initialStones, 1, initialStones.length);
-        if (this.id < MAX_PLAYINGPITS) {
-            this.addNeighbour(new PlayingPit(initialStones, id+1, p, firstpit));
+        this.pitsPerPlayer = nrPits;
+        if (id < nrPits) {
+            this.addNeighbour(new PlayingPit(nrStones, nrPits, id+1, p, firstpit));
+        } else if (p.getOpponent().isCurrentPlayer()) {
+            this.addNeighbour(new GoalPit(nrStones, nrPits, p, firstpit));
         } else {
-            this.addNeighbour(new GoalPit(initialStones, p, firstpit));
+            this.addNeighbour(firstpit);
         }
     }
 
+    // maak alleen mogelijk deze op de eerste pit uit te voeren
     @Override
     public boolean rowEmpty() {
         if (this.getStones() <= 0) return this.getNeighbour().rowEmpty();
         return false;
     }
 
+    // Maak eigen Exception class
     @Override
     public void playPit() throws UnsupportedOperationException {
         if (!this.getPlayer().isCurrentPlayer()) throw new UnsupportedOperationException("This pit cannot be played by current player.");
@@ -45,7 +36,7 @@ public class PlayingPit extends AbstractPit {
 
     @Override
     public PlayingPit getPlayingPit(int id, Player player) throws IllegalArgumentException {
-        if (id < 1 || id > MAX_PLAYINGPITS) {
+        if (id < 1 || id > this.pitsPerPlayer) {
             throw new IllegalArgumentException("This pit does not exist in the game.");
         }
         if (this.id == id && this.getPlayer().equals(player)) {
@@ -56,7 +47,7 @@ public class PlayingPit extends AbstractPit {
     }
 
     public PlayingPit getOtherSide() {
-        int idOther = MAX_PLAYINGPITS + 1 - this.id;
+        int idOther = this.pitsPerPlayer + 1 - this.id;
         return this.getPlayingPit(idOther, this.getPlayer().getOpponent());
     }
 

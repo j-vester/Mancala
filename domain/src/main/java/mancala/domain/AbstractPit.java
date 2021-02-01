@@ -30,7 +30,7 @@ public abstract class AbstractPit {
     public AbstractPit getNeighbour() {
         return this.neighbour;
     }
-
+    //maak volgende drie abstract
     public PlayingPit getPlayingPit(int id, Player player) {
         return this.getNeighbour().getPlayingPit(id, player);
     }
@@ -38,7 +38,8 @@ public abstract class AbstractPit {
     public GoalPit getGoalPit(Player player) {
         return this.getNeighbour().getGoalPit(player);
     }
-
+    
+    // maak private? 
     public void emptyRowToGoalPit() {}
 
     protected void addStones(int stones) {
@@ -48,4 +49,6 @@ public abstract class AbstractPit {
     protected void addNeighbour(AbstractPit nextPit) {
         this.neighbour = nextPit;
     }
+
+    // method voor get score --> getKalaha setScore --> 
 }

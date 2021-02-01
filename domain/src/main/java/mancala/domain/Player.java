@@ -3,13 +3,14 @@ package mancala.domain;
 public class Player {
     private Player opponent;
     private boolean currentPlayer;
+    // private int score?
 
     public Player() {
         this.currentPlayer = true;
         this.opponent = new Player(this);
     }
 
-    public Player(Player opp) {
+    private Player(Player opp) {
         this.currentPlayer = false;
         this.opponent = opp;
     }
