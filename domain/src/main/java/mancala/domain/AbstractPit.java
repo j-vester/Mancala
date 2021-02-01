@@ -23,7 +23,7 @@ public abstract class AbstractPit {
         return this.neighbour;
     }
 
-    public abstract boolean rowEmpty();
+    public abstract boolean isRowEmpty();
 
     public abstract void playPit();
 
@@ -37,6 +37,8 @@ public abstract class AbstractPit {
     protected abstract void passStonesAfterMove(int stones);
 
     protected abstract void passStonesToGoal(int stones);
+
+    protected abstract boolean isEmpty();
 
     protected void addStones(int stones) {
         this.stones += stones;

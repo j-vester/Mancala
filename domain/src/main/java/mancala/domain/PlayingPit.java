@@ -19,8 +19,9 @@ public class PlayingPit extends AbstractPit {
 
     // maak alleen mogelijk deze op de eerste pit uit te voeren
     @Override
-    public boolean rowEmpty() {
-        if (this.getStones() <= 0) return this.getNeighbour().rowEmpty();
+    public boolean isRowEmpty() throws MancalaException {
+        if (this.id != 1) throw new MancalaException("This check needs to be done at the first pit of a Player");
+        if (this.getStones() <= 0) return this.getNeighbour().isEmpty();
         return false;
     }
 
@@ -78,6 +79,12 @@ public class PlayingPit extends AbstractPit {
     @Override
     protected void passStonesToGoal(int stones) {
         this.getNeighbour().passStonesToGoal(stones);
+    }
+
+    @Override
+    protected boolean isEmpty() {
+        if (this.getStones() <= 0) return this.getNeighbour().isEmpty();
+        return false;
     }
 
     private int emptyPitAndReturnStones() {

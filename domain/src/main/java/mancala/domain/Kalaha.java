@@ -21,8 +21,8 @@ public class Kalaha extends AbstractPit {
     }
 
     @Override
-    public boolean rowEmpty() {
-        return true;
+    public boolean isRowEmpty() throws MancalaException {
+        throw new MancalaException("This check needs to be done at the first pit of a Player");
     }
 
     @Override
@@ -60,5 +60,10 @@ public class Kalaha extends AbstractPit {
     @Override
     protected void passStonesToGoal(int stones) {
         this.addStones(stones);
+    }
+
+    @Override
+    protected boolean isEmpty() {
+        return true;
     }
 }  

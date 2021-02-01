@@ -105,19 +105,25 @@ public class PlayingPitTest {
     @Test
     public void emptyRowIsCorrectlyAssessed() {
         Kalaha kalaha = new Kalaha(0,6);
-        assertTrue(kalaha.getNeighbour().rowEmpty());
+        assertTrue(kalaha.getNeighbour().isRowEmpty());
+    }
+
+    @Test
+    public void emptyRowCanOnlyBeAssesedFromFirstPit() {
+        Kalaha kalaha = new Kalaha(0,6);
+        assertThrows(MancalaException.class, () -> {kalaha.getPlayingPit(2, kalaha.getPlayer()).isRowEmpty();});
     }
 
     @Test
     public void nonEmptyRowIsCorrectlyAssessed() {
         Kalaha kalaha = new Kalaha(1,6);
-        assertFalse(kalaha.getNeighbour().rowEmpty());
+        assertFalse(kalaha.getNeighbour().isRowEmpty());
     }
 
     @Test
     public void rowIsEmptyAfterAllStonesMoveToKalaha() {
         PlayingPit pit = (PlayingPit) new Kalaha(1,6).getNeighbour();
         pit.emptyRowToKalaha();
-        assertTrue(pit.rowEmpty());
+        assertTrue(pit.isRowEmpty());
     }
 }
