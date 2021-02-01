@@ -45,13 +45,22 @@ public class Kalaha extends AbstractPit {
     }
 
     @Override
-    public void emptyRowToKalaha() {}
+    protected void emptyRowToKalaha() {}
 
     @Override
     protected void passStonesAfterMove(int stones) {
         if (this.getPlayer().isCurrentPlayer()) {
             this.addStones(1);
             if (stones > 1) this.getNeighbour().passStonesAfterMove(stones-1);
+            else {
+                if (this.isRowEmpty()) {
+                    this.getPlayingPit(1, this.getPlayer().getOpponent()).emptyRowToKalaha();
+                    this.getPlayer().endGame();
+                } else if (this.getKalaha(this.getPlayer().getOpponent()).isRowEmpty()) {
+                    this.getPlayingPit(1, this.getPlayer()).emptyRowToKalaha();
+                    this.getPlayer().endGame();
+                }
+            }
         } else {
             this.getNeighbour().passStonesAfterMove(stones);
         }

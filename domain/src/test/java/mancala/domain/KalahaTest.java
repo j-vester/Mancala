@@ -59,10 +59,18 @@ public class KalahaTest {
     }
 
     @Test
-    public void stonesMoveTokalahaIfRowIsEmptied() {
+    public void stonesMoveToKalahaIfRowIsEmptied() {
         Kalaha kalaha = new Kalaha(1,6);
         kalaha.getPlayingPit(1, kalaha.getPlayer()).emptyRowToKalaha();
         assertEquals(6, kalaha.getStones());
+    }
+
+    @Test
+    public void ifRowIsEmptyAfterPlayAllStonesInOtherRowMoveToKalaha() {
+        Kalaha kalaha = new Kalaha(2,2);
+        kalaha.getPlayingPit(1, kalaha.getPlayer()).addStones(-2);
+        kalaha.getPlayingPit(2, kalaha.getPlayer()).playPit();
+        assertEquals(5, kalaha.getKalaha(kalaha.getPlayer().getOpponent()).getStones());
     }
 
     @Test

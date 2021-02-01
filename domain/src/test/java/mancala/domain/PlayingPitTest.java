@@ -127,4 +127,12 @@ public class PlayingPitTest {
         pit.emptyRowToKalaha();
         assertTrue(pit.isRowEmpty());
     }
+
+    @Test
+    public void ifRowIsEmptyAfterPlayOtherRowIsEmptied() {
+        Kalaha kalaha = new Kalaha(2,2);
+        kalaha.getPlayingPit(1, kalaha.getPlayer()).addStones(-2);
+        kalaha.getPlayingPit(2, kalaha.getPlayer()).playPit();
+        assertTrue(kalaha.getPlayingPit(1, kalaha.getPlayer().getOpponent()).isRowEmpty());
+    }
 }

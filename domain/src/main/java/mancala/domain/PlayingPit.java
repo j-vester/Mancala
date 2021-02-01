@@ -56,7 +56,7 @@ public class PlayingPit extends AbstractPit {
     }
 
     @Override
-    public void emptyRowToKalaha() {
+    protected void emptyRowToKalaha() {
         int collectStones = this.emptyPitAndReturnStones();
         this.getNeighbour().passStonesToGoal(collectStones);
         this.getNeighbour().emptyRowToKalaha();
@@ -68,10 +68,18 @@ public class PlayingPit extends AbstractPit {
         if (stones > 1) {
             this.getNeighbour().passStonesAfterMove(stones-1);
         } else {
-            this.getPlayer().turnOver();
             if (this.getStones() == 1) {
                 int collectStones = this.emptyPitAndReturnStones() + this.getOtherSide().emptyPitAndReturnStones();
                 this.getNeighbour().passStonesToGoal(collectStones);
+            }
+            if (this.isRowEmpty()) {
+                this.getPlayingPit(1, this.getPlayer().getOpponent()).emptyRowToKalaha();
+                this.getPlayer().endGame();
+            } else if (this.getOtherSide().isRowEmpty()) {
+                this.getPlayingPit(1, this.getPlayer()).emptyRowToKalaha();
+                this.getPlayer().endGame();
+            } else {
+                this.getPlayer().switchTurns();
             }
         }
     }

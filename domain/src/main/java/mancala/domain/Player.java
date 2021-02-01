@@ -23,7 +23,17 @@ public class Player {
         return this.opponent;
     }
 
-    public void turnOver() {
+    public void switchTurns() {
+        if (this.currentPlayer) this.turnIsOver();
+        else this.getOpponent().turnIsOver();
+    }
+
+    public void endGame() {
+        if (this.currentPlayer) this.currentPlayer = false;
+        else this.getOpponent().endGame();
+    }
+
+    private void turnIsOver() {
         this.currentPlayer = false;
         this.opponent.turn();
     }

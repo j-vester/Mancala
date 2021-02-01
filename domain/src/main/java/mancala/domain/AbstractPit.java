@@ -31,8 +31,7 @@ public abstract class AbstractPit {
 
     public abstract Kalaha getKalaha(Player player);
     
-    // maak private? 
-    public abstract void emptyRowToKalaha();
+    protected abstract void emptyRowToKalaha();
 
     protected abstract void passStonesAfterMove(int stones);
 
