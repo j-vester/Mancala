@@ -21,8 +21,8 @@ public class Kalaha extends AbstractPit {
     }
 
     @Override
-    public boolean isRowEmpty() throws MancalaException {
-        throw new MancalaException("This check needs to be done at the first pit of a Player");
+    public boolean isRowEmpty() {
+        return this.getPlayingPit(1, this.getPlayer()).isRowEmpty();
     }
 
     @Override

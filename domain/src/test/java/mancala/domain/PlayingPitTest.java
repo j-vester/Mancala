@@ -109,9 +109,10 @@ public class PlayingPitTest {
     }
 
     @Test
-    public void emptyRowCanOnlyBeAssesedFromFirstPit() {
+    public void emptyRowIsAlwaysAssesedFromFirstPit() {
         Kalaha kalaha = new Kalaha(0,6);
-        assertThrows(MancalaException.class, () -> {kalaha.getPlayingPit(2, kalaha.getPlayer()).isRowEmpty();});
+        kalaha.getPlayingPit(1, kalaha.getPlayer()).addStones(1);;
+        assertFalse(kalaha.getPlayingPit(2, kalaha.getPlayer()).isRowEmpty());
     }
 
     @Test

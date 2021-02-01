@@ -64,4 +64,11 @@ public class KalahaTest {
         kalaha.getPlayingPit(1, kalaha.getPlayer()).emptyRowToKalaha();
         assertEquals(6, kalaha.getStones());
     }
+
+    @Test
+    public void checkIfRowOfCorrespondingPlayerIsEmptyFromKalaha() {
+        Kalaha kalaha = new Kalaha(0,6);
+        kalaha.getPlayingPit(1, kalaha.getPlayer().getOpponent());
+        assertTrue(kalaha.isRowEmpty());
+    }
 }
