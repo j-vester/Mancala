@@ -35,12 +35,12 @@ public abstract class AbstractPit {
         return this.getNeighbour().getPlayingPit(id, player);
     }
 
-    public GoalPit getGoalPit(Player player) {
-        return this.getNeighbour().getGoalPit(player);
+    public Kalaha getKalaha(Player player) {
+        return this.getNeighbour().getKalaha(player);
     }
     
     // maak private? 
-    public void emptyRowToGoalPit() {}
+    public void emptyRowToKalaha() {}
 
     protected void addStones(int stones) {
         this.stones += stones;

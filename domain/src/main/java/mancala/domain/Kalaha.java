@@ -1,21 +1,21 @@
 package mancala.domain;
 
-// Kalaha ipv GoalPit
-public class GoalPit extends AbstractPit {
+// Kalaha ipv Kalaha
+public class Kalaha extends AbstractPit {
 
     private static final int USUAL_INIT_STONES = 4;
     private static final int USUAL_MAX_PITS = 6;
 
-    public GoalPit() {
+    public Kalaha() {
         this(USUAL_INIT_STONES, USUAL_MAX_PITS);
     }
 
-    public GoalPit(int nrStones, int nrPits) {
+    public Kalaha(int nrStones, int nrPits) {
         super(0, new Player());
         this.addNeighbour(new PlayingPit(nrStones, nrPits, 1, this.getPlayer().getOpponent(), this));
     }
     
-    public GoalPit(int nrStones, int nrPits, Player p, GoalPit firstpit) {
+    public Kalaha(int nrStones, int nrPits, Player p, Kalaha firstpit) {
         super(0,p);
         this.addNeighbour(new PlayingPit(nrStones, nrPits, 1, this.getPlayer().getOpponent(), firstpit));
     }
@@ -26,11 +26,11 @@ public class GoalPit extends AbstractPit {
     }
     
     @Override
-    public GoalPit getGoalPit(Player player) {
+    public Kalaha getKalaha(Player player) {
         if (this.getPlayer().equals(player)){
             return this;
         } else {
-            return this.getNeighbour().getGoalPit(player);
+            return this.getNeighbour().getKalaha(player);
         }
     }
 

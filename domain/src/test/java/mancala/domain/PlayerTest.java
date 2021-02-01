@@ -7,15 +7,15 @@ public class PlayerTest {
     
     @Test
     public void currentPlayerIsSwitchedAfterMove() {
-        GoalPit goal = new GoalPit();
-        goal.getPlayingPit(1, goal.getPlayer()).playPit();
-        assertFalse(goal.getPlayer().isCurrentPlayer());
+        Kalaha kalaha = new Kalaha();
+        kalaha.getPlayingPit(1, kalaha.getPlayer()).playPit();
+        assertFalse(kalaha.getPlayer().isCurrentPlayer());
     }
 
     @Test
-    public void currentPlayerIsNotSwitchedIfMoveEndedInOwnGoalPit() {
-        GoalPit goal = new GoalPit();
-        goal.getPlayingPit(3, goal.getPlayer()).playPit();
-        assertTrue(goal.getPlayer().isCurrentPlayer());
+    public void currentPlayerIsNotSwitchedIfMoveEndedInOwnKalaha() {
+        Kalaha kalaha = new Kalaha();
+        kalaha.getPlayingPit(3, kalaha.getPlayer()).playPit();
+        assertTrue(kalaha.getPlayer().isCurrentPlayer());
     }
 }

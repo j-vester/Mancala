@@ -3,45 +3,45 @@ package mancala.domain;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class GoalPitTest {
+public class KalahaTest {
 
     @Test
-    public void aGoalPitStartsWith0stones() {
-        GoalPit goal = new GoalPit();
+    public void aKalahaStartsWith0stones() {
+        Kalaha goal = new Kalaha();
         assertEquals(0,goal.getStones());
     }
 
-    @Test void lastPlayingPitHasInitializedGoalPitAsNeighbour() {
-        GoalPit goal = new GoalPit();
+    @Test void lastPlayingPitHasInitializedKalahaAsNeighbour() {
+        Kalaha goal = new Kalaha();
         PlayingPit lastPit = goal.getPlayingPit(6, goal.getPlayer());
         assertTrue(goal.equals(lastPit.getNeighbour()));
     }
 
     @Test
-    public void goalPitCannotBePlayed() {
-        GoalPit goal = new GoalPit();
+    public void KalahaCannotBePlayed() {
+        Kalaha goal = new Kalaha();
         assertThrows(UnsupportedOperationException.class, () -> {goal.playPit();});
     }
 
     @Test
-    public void goalPitReceivesOneStoneAfterMove() {
-        GoalPit goal = new GoalPit();
+    public void KalahaReceivesOneStoneAfterMove() {
+        Kalaha goal = new Kalaha();
         PlayingPit pit = goal.getPlayingPit(3, goal.getPlayer());
         pit.playPit();
         assertEquals(1, goal.getStones());
     }
 
     @Test
-    public void goalPitOfIdlePlayerReceivesNoStones() {
-        GoalPit goal = new GoalPit(3,1);
-        GoalPit goalOther = goal.getGoalPit(goal.getPlayer().getOpponent());
+    public void KalahaOfIdlePlayerReceivesNoStones() {
+        Kalaha goal = new Kalaha(3,1);
+        Kalaha goalOther = goal.getKalaha(goal.getPlayer().getOpponent());
         goal.getPlayingPit(1, goal.getPlayer()).playPit();
         assertEquals(0, goalOther.getStones());
     }
 
     @Test
-    public void ifMoveEndsOnEmptyPitStonesMoveToGoalPit() {
-        GoalPit goal = new GoalPit(0,2);
+    public void ifMoveEndsOnEmptyPitStonesMoveToKalaha() {
+        Kalaha goal = new Kalaha(0,2);
         PlayingPit pit = goal.getPlayingPit(1, goal.getPlayer());
         pit.addStones(1);
         pit.playPit();
@@ -50,7 +50,7 @@ public class GoalPitTest {
 
     @Test
     public void ifMoveEndsOnEmptyPitOtherSideStonesMoveToGoal() {
-        GoalPit goal = new GoalPit(0,2);
+        Kalaha goal = new Kalaha(0,2);
         PlayingPit pit = goal.getPlayingPit(1, goal.getPlayer());
         pit.addStones(1);
         goal.getPlayingPit(1, goal.getPlayer().getOpponent()).addStones(1);
@@ -60,8 +60,8 @@ public class GoalPitTest {
 
     @Test
     public void stonesMoveToGoalIfRowIsEmptied() {
-        GoalPit goal = new GoalPit(1,6);
-        goal.getPlayingPit(1, goal.getPlayer()).emptyRowToGoalPit();
+        Kalaha goal = new Kalaha(1,6);
+        goal.getPlayingPit(1, goal.getPlayer()).emptyRowToKalaha();
         assertEquals(6, goal.getStones());
     }
 }

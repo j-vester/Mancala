@@ -5,14 +5,14 @@ public class PlayingPit extends AbstractPit {
     private int id;
     private int pitsPerPlayer;
 
-    public PlayingPit(int nrStones, int nrPits, int id, Player p, GoalPit firstpit) {
+    public PlayingPit(int nrStones, int nrPits, int id, Player p, Kalaha firstpit) {
         super(nrStones, p);
         this.id = id;
         this.pitsPerPlayer = nrPits;
         if (id < nrPits) {
             this.addNeighbour(new PlayingPit(nrStones, nrPits, id+1, p, firstpit));
         } else if (p.getOpponent().isCurrentPlayer()) {
-            this.addNeighbour(new GoalPit(nrStones, nrPits, p, firstpit));
+            this.addNeighbour(new Kalaha(nrStones, nrPits, p, firstpit));
         } else {
             this.addNeighbour(firstpit);
         }
@@ -52,10 +52,10 @@ public class PlayingPit extends AbstractPit {
     }
 
     @Override
-    public void emptyRowToGoalPit() {
+    public void emptyRowToKalaha() {
         int collectStones = this.emptyPitAndReturnStones();
         this.getNeighbour().passStonesToGoal(collectStones);
-        this.getNeighbour().emptyRowToGoalPit();
+        this.getNeighbour().emptyRowToKalaha();
     }
 
     @Override
