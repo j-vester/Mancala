@@ -47,5 +47,4 @@ public abstract class AbstractPit {
         this.neighbour = nextPit;
     }
 
-    // method voor get score --> getKalaha setScore --> 
 }

@@ -16,8 +16,7 @@ public class PlayingPit extends AbstractPit {
             this.addNeighbour(firstpit);
         }
     }
-
-    // maak alleen mogelijk deze op de eerste pit uit te voeren
+    
     @Override
     public boolean isRowEmpty() {
         if (this.id != 1) return this.getPlayingPit(1, this.getPlayer()).isRowEmpty();
@@ -71,6 +70,7 @@ public class PlayingPit extends AbstractPit {
             if (this.getStones() == 1) {
                 int collectStones = this.emptyPitAndReturnStones() + this.getOtherSide().emptyPitAndReturnStones();
                 this.getNeighbour().passStonesToGoal(collectStones);
+                this.getPlayer().switchTurns();
             }
             if (this.isRowEmpty()) {
                 this.getPlayingPit(1, this.getPlayer().getOpponent()).emptyRowToKalaha();

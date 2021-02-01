@@ -25,7 +25,7 @@ public class Player {
 
     public void switchTurns() {
         if (this.currentPlayer) this.turnIsOver();
-        else this.getOpponent().turnIsOver();
+        else if (this.getOpponent().isCurrentPlayer()) this.getOpponent().turnIsOver();
     }
 
     public void endGame() {

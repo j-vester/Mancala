@@ -1,6 +1,5 @@
 package mancala.domain;
 
-// Kalaha ipv Kalaha
 public class Kalaha extends AbstractPit {
 
     private static final int USUAL_INIT_STONES = 4;

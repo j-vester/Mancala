@@ -38,4 +38,20 @@ public class PlayerTest {
         kalaha.getPlayingPit(1, kalaha.getPlayer()).playPit();
         assertFalse(kalaha.getPlayer().getOpponent().isCurrentPlayer());
     }
+
+    @Test
+    public void lastCannotBeReactivatedOnceGameEnded() {
+        Kalaha kalaha = new Kalaha(1,1);
+        kalaha.getPlayingPit(1, kalaha.getPlayer()).playPit();
+        kalaha.getPlayer().switchTurns();
+        assertFalse(kalaha.getPlayer().isCurrentPlayer());
+    }
+
+    @Test
+    public void otherPlayerCannotBeReactivatedOnceGameEnded() {
+        Kalaha kalaha = new Kalaha(1,1);
+        kalaha.getPlayingPit(1, kalaha.getPlayer()).playPit();
+        kalaha.getPlayer().switchTurns();
+        assertFalse(kalaha.getPlayer().getOpponent().isCurrentPlayer());
+    }
 }
