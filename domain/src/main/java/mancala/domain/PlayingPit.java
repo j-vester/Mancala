@@ -70,7 +70,6 @@ public class PlayingPit extends AbstractPit {
             if (this.getStones() == 1) {
                 int collectStones = this.emptyPitAndReturnStones() + this.getOtherSide().emptyPitAndReturnStones();
                 this.getNeighbour().passStonesToGoal(collectStones);
-                this.getPlayer().switchTurns();
             }
             if (this.isRowEmpty()) {
                 this.getPlayingPit(1, this.getPlayer().getOpponent()).emptyRowToKalaha();

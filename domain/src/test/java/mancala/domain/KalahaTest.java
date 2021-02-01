@@ -49,7 +49,7 @@ public class KalahaTest {
     }
 
     @Test
-    public void ifMoveEndsOnEmptyPitOtherSideStonesMoveTokalaha() {
+    public void ifMoveEndsOnEmptyPitOtherSideStonesMoveToKalaha() {
         Kalaha kalaha = new Kalaha(0,2);
         PlayingPit pit = kalaha.getPlayingPit(1, kalaha.getPlayer());
         pit.addStones(1);

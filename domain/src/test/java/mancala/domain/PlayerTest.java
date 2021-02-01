@@ -12,12 +12,22 @@ public class PlayerTest {
         assertFalse(kalaha.getPlayer().isCurrentPlayer());
     }
 
+    @Test
     public void currentPlayerIsSwitchedAfterMoveEndsOnOtherSide() {
         Kalaha kalaha = new Kalaha();
         kalaha.getPlayingPit(6, kalaha.getPlayer()).playPit();
         assertFalse(kalaha.getPlayer().isCurrentPlayer());
     }
 
+    @Test
+    public void currentPlayerIsSwitchedAfterMoveEndsOnEmptyPit() {
+        Kalaha kalaha = new Kalaha(1,3);
+        PlayingPit pit = kalaha.getPlayingPit(1, kalaha.getPlayer());
+        pit.getNeighbour().addStones(-1);
+        pit.playPit();
+        assertFalse(pit.getPlayer().isCurrentPlayer());
+    }
+    
     @Test
     public void currentPlayerIsNotSwitchedIfMoveEndedInOwnKalaha() {
         Kalaha kalaha = new Kalaha();

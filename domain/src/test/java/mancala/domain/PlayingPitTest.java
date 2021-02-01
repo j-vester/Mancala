@@ -84,8 +84,6 @@ public class PlayingPitTest {
         assertEquals(4, pit.getPlayingPit(6, pit.getPlayer()).getStones());
     }
     
-    //tests voor 1 keer rond gaan, wanneer leeg je, wanneer vul je
-
     @Test
     public void ifMoveEndsOnEmptyPitOfSamePlayerItIsEmptied() {
         Kalaha kalaha = new Kalaha(3,1);
@@ -100,6 +98,14 @@ public class PlayingPitTest {
         PlayingPit pit = kalaha.getPlayingPit(1, kalaha.getPlayer());
         pit.playPit();
         assertEquals(0, pit.getOtherSide().getStones());
+    }
+
+    @Test
+    public void ifMoveCirclesExactlyTwoTimesPitIsNotEmptied() {
+        Kalaha kalaha = new Kalaha(6,1);
+        PlayingPit pit = kalaha.getPlayingPit(1, kalaha.getPlayer());
+        pit.playPit();
+        assertEquals(2, pit.getStones());
     }
 
     @Test
