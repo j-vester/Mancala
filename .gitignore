@@ -7,7 +7,7 @@ build
 node_modules
 
 # Ignore eclipse files
-/domain/.project
+domain/.project
 org.eclipse.buildship.core.prefs
 .classpath
 domain/bin/main/mancala/domain/MancalaException.class
