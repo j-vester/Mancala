@@ -40,7 +40,7 @@ public class App {
         // Use the Jersey framework to translate the classes in the
         // mancala.api package to server endpoints (servlets).
         // For example, the StartMancala class will become an endpoint at
-        // http://localost:8080/start
+        // http://localost:8080/mancala/api/start
         ServletHolder serverHolder = context.addServlet(ServletContainer.class, "/mancala/api/*");
         serverHolder.setInitOrder(1);
         serverHolder.setInitParameter("jersey.config.server.provider.packages", 

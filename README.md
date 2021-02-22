@@ -13,6 +13,56 @@ This repository contains the files for three modules:
 - api/src/main/java/mancala/api: contains the web endpoints.
 - api/src/main/java/mancala/api/models: contains the web endpoints.
 - domain/: contains the files that model the business domain (game rules). This is the folder you develop your OO mancala case in.
+- client/: contains the client (front-end)
+
+## Two servers
+
+The project consists of two servers. The front-end uses a Node.js server. It is mainly used to compile your React code into Javascript files during development. This will shorten the feedback loop between changing your code and seeing the results in the browser. The second server is the back-end, which uses a Jetty server. The back-end server allows your Java API to be accessible for other programs, including the front-end server. To prevent [cross-origin request shenanigans (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS), all requests from the browser will be sent to the front-end server. That server will then forward to the back-end server if needed.
+
+The front-end assumes that the back-end will run on port 8080. If that is not the case, edit the snowpack.config.js file.
+
+To run the application you need to have both servers running at the same time. This probably means you'll need to open two different terminals/command prompts to do so.
+
+
+## React project structure
+
+A React project is generally structured as follows:
+
+```
+package.json
+public/
+   index.html
+src/
+   Feature1/
+      Feature1.css
+      Feature1.tsx
+      Feature1.tests.tsx
+   Feature2/
+      Feature2.css
+      Feature2.tsx
+      Feature2.tests.tsx
+      Feature2B.tsx
+      Feature2B.tests.tsx
+```
+
+The public directory contains static files, such as the relatively empty index.html file needed to run React. The src file contains the React code. The convention for TypeScript projects is to use the .tsx file extension for files that contain React components. Files are generally grouped together in directories by feature. These directories contain all files related to that feature, such as coponents, stylesheets, images and tests.
+
+## Installating front-end dependencies
+
+To run the React application you'll first need to install the required dependencies. These dependencies are defined in the package.json file. Run the command `npm install` from the `/client` directory.
+
+## Running the front-end
+
+The package.json specifies which commands can be run using npm (e.g. npm run start). In this sample repository, two commands have been defined. You should also run these in the `/client` directory.
+
+```bash
+# Start a development server
+npm run start
+# Check code for common mistakes and style conventions
+npm run lint
+```
+
+
 
 ## Java project structure
 
