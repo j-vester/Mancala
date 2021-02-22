@@ -10,4 +10,4 @@ node_modules
 .project
 org.eclipse.buildship.core.prefs
 .classpath
-/bin/main/mancala/domain/MancalaException.class
+domain/bin/main/mancala/domain/MancalaException.class
