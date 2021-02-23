@@ -9,7 +9,7 @@ public interface Mancala {
 	/**
 	 * Method indicating if the first player has the next turn or not.
 	 * If player 1 is not in turn, then player 2 is in turn.
-     * @param The player which you want to know the turn for.
+     * @param player The player which you want to know the turn for.
 	 * @return True if the first player has the next turn, false if it's the turn of the other player.
 	 */
 	boolean isPlayersTurn(int player);

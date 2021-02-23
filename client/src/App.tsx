@@ -6,6 +6,7 @@ import { Mancala } from "./Mancala/Mancala";
 import "./App.css";
 
 export function App() {
+    
     return (
         <Router>
             {/* The header with navigation options is always on top of every page */}
