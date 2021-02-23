@@ -7,3 +7,4 @@ build
 node_modules
 client/node_modules
 .project
+domain/.project
