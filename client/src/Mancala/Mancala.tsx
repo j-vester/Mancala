@@ -15,7 +15,8 @@ import "./Mancala.css";
 export function Mancala() {
 
     const [ gameState, setGameState ] = useState<GameState | undefined>(undefined);
-
+    console.log({gameState});
+    console.log({setGameState});
     if (!gameState) {
         return <StartGame setGameState={setGameState} />
     }
