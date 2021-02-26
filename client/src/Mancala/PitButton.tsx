@@ -10,7 +10,7 @@ type PitProps = {
 export function PitButton({ stones, color, onClick }: PitProps) {
     return (
         <button
-            style={{backgroundColor: color,}}
+            style={{backgroundColor: color, color: "white"}}
             onClick={onClick}
         >
             {stones}
