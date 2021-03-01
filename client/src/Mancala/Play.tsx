@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import type { GameState } from "../gameState";
 import {PitButton} from "./PitButton";
+import {ReplayButton} from "./ReplayButton";
 import "./Play.css";
 
 type PlayProps = {
@@ -11,6 +12,7 @@ type PlayProps = {
 export function Play({ gameState, setGameState }: PlayProps) {
 
     const [errorMessage, setErrorMessage] = useState("");
+    const [winnerMessage, setWinner] = useState("");
 
     async function tryPlayPit(pitIndex: number, e: React.MouseEvent) {
         e.preventDefault();
@@ -38,6 +40,33 @@ export function Play({ gameState, setGameState }: PlayProps) {
             if (response.ok) {
                 const gameState = await response.json();
                 setGameState(gameState);
+                if (gameState.gameStatus.endOfGame){
+                    setWinner(gameState.gameStatus.winner+" has won this game!")
+                }
+            } else {
+                console.error(response.statusText);
+            }
+        } catch (error) {
+            console.error(error.toString());
+        }
+    }
+
+    async function tryRestartGame(e: React.MouseEvent) {
+        e.preventDefault();
+        try {
+            const response = await fetch('mancala/api/start', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ nameplayer1: gameState.players[0].name, nameplayer2: gameState.players[1].name })
+            });
+                
+            if (response.ok) {
+                const gameState = await response.json();
+                setGameState(gameState);
+                setWinner("");
             } else {
                 console.error(response.statusText);
             }
@@ -57,6 +86,12 @@ export function Play({ gameState, setGameState }: PlayProps) {
             })}</div>
 
             <p className="errorMessage">{errorMessage}</p>
+            <div className="winner">{winnerMessage}</div>
+            {gameState.gameStatus.endOfGame && 
+                <div>
+                    <ReplayButton onClick={(e)=>tryRestartGame(e)}/>
+                </div>
+            }
         </div>
     )
 }
