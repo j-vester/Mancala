@@ -66,7 +66,7 @@ export function Play({ gameState, setGameState }: PlayProps) {
             if (response.ok) {
                 const gameState = await response.json();
                 setGameState(gameState);
-                setWinner("");
+                setWinner(""); 
             } else {
                 console.error(response.statusText);
             }
@@ -79,10 +79,10 @@ export function Play({ gameState, setGameState }: PlayProps) {
         <div>
             <p>{gameState.players[0].name} vs {gameState.players[1].name}</p>
             <div>{gameState.players[0].pits.map(function(pit){
-                return <PitButton stones={pit.nrOfStones} color="red" onClick={(e)=>tryPlayPit(pit.index, e)}/>
+                return <PitButton stones={pit.nrOfStones} color="red" onClick={(e)=>tryPlayPit(pit.index, e)} key={pit.index}/>
             })}</div>
             <div>{gameState.players[1].pits.map(function(pit){
-                return <PitButton stones={pit.nrOfStones} color="blue" onClick={(e)=>tryPlayPit(pit.index, e)}/>
+                return <PitButton stones={pit.nrOfStones} color="blue" onClick={(e)=>tryPlayPit(pit.index, e)} key={pit.index}/>
             })}</div>
 
             <p className="errorMessage">{errorMessage}</p>
