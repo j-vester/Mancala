@@ -19,7 +19,7 @@ public class PlayPit {
             PitClicked pit) {
         int index = pit.getIndex();
             
-        HttpSession session = request.getSession(true);
+        HttpSession session = request.getSession(false);
         MancalaImpl mancala = (MancalaImpl) session.getAttribute("mancala");
         mancala.playPit(index);
         String namePlayer1 = (String) session.getAttribute("player1");
