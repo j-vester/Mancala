@@ -12,14 +12,14 @@ export function Play({ gameState, setGameState }: PlayProps) {
 
     const [errorMessage, setErrorMessage] = useState("");
 
-    async function tryPlayPit(index: number, e: React.MouseEvent) {
+    async function tryPlayPit(pitIndex: number, e: React.MouseEvent) {
         e.preventDefault();
-        const playerNr = (index<7) ? 0 : 1;
+        const playerNr = (pitIndex<7) ? 0 : 1;
         if (!gameState.players[playerNr].hasTurn) {
             setErrorMessage("This pit cannot be played");
             return;
         }
-        if (index==6 || index==13) {
+        if (pitIndex==6 || pitIndex==13) {
             setErrorMessage("A Kalaha pit cannot be played");
             return;
         }
@@ -32,7 +32,7 @@ export function Play({ gameState, setGameState }: PlayProps) {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ pitIndex: index})
+                body: JSON.stringify({ index: pitIndex})
             });
 
             if (response.ok) {
