@@ -42,6 +42,9 @@ export function StartGame({ setGameState }: StartGameProps) {
             });
 
             if (response.ok) {
+                for (var pair of response.headers.entries()) {
+                    console.log(pair[0]+": "+pair[1]);
+                }
                 const gameState = await response.json();
                 setGameState(gameState);
             } else {
