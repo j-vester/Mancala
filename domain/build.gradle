@@ -19,11 +19,16 @@ dependencies {
 test {
     // For running our tests, use the test runner provided by JUnit.
     useJUnitPlatform()
-    finalizedBy jacocoTestReport
+    finalizedBy("jacocoTestReport")
 }
 
 jacocoTestReport {
     dependsOn test
+    reports {
+        xml.enabled false
+        csv.enabled true
+        csv.destination file("${buildDir}/jacocoCsv")
+    }
 }
 
 jacoco {
