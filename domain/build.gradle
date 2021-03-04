@@ -16,21 +16,20 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.2'
 }
 
-test {
-    // For running our tests, use the test runner provided by JUnit.
-    useJUnitPlatform()
-    finalizedBy("jacocoTestReport")
+jacoco {
+    toolVersion = "0.8.6"
 }
 
 jacocoTestReport {
     dependsOn test
     reports {
-        xml.enabled false
         csv.enabled true
         csv.destination file("${buildDir}/jacocoCsv")
     }
 }
 
-jacoco {
-    toolVersion = "0.8.6"
+test {
+    // For running our tests, use the test runner provided by JUnit.
+    useJUnitPlatform()
+    finalizedBy("jacocoTestReport")
 }
