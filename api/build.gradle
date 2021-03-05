@@ -3,6 +3,7 @@ plugins {
     id 'java'
     // This time we're building a command-line executable application.
     id 'application'
+    id 'jacoco'
 }
 
 repositories {
@@ -39,6 +40,10 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.2'
 }
 
+jacoco {
+    toolVersion = "0.8.6"
+}
+
 application {
     // Define the main class for the application.
     mainClassName = 'mancala.App'
@@ -47,4 +52,14 @@ application {
 test {
     // Use junit platform for unit tests
     useJUnitPlatform()
+    finalizedBy("jacocoTestReport")
 }
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        csv.enabled true
+        csv.destination file("${buildDir}/jacocoCsv")
+    }
+}
+

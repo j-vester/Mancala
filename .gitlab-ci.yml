@@ -2,7 +2,8 @@ image: openjdk:15
 
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
-  JACOCO_CSV_LOCATION: '$CI_PROJECT_DIR/domain/build/jacocoCsv'
+  JACOCO_DOMAIN_CSV_LOCATION: '$CI_PROJECT_DIR/domain/build/jacocoCsv'
+  JACOCO_API_CSV_LOCATION: '$CI_PROJECT_DIR/domain/build/jacocoCsv'
 
 stages:
   - build
@@ -17,4 +18,5 @@ test:
   stage: test
   script:
     - ./gradlew test
-    - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' $JACOCO_CSV_LOCATION
+    - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print "DOMAIN:"; print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' $JACOCO_DOMAIN_CSV_LOCATION
+    - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print "API:"; print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' $JACOCO_API_CSV_LOCATION
