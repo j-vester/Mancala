@@ -25,6 +25,7 @@ jacocoTestReport {
     reports {
         csv.enabled true
         csv.destination file("${buildDir}/jacocoCsv")
+        html.destination file("${buildDir}/jacocoHtml")
     }
 }
 

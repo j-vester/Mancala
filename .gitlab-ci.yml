@@ -3,7 +3,9 @@ image: openjdk:15
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
   JACOCO_DOMAIN_CSV_LOCATION: '$CI_PROJECT_DIR/domain/build/jacocoCsv'
+  JACOCO_DOMAIN_HTML_LOCATION: '$CI_PROJECT_DIR/domain/build/jacocoHtml'
   JACOCO_API_CSV_LOCATION: '$CI_PROJECT_DIR/api/build/jacocoCsv'
+  JACOCO_API_HTML_LOCATION: '$CI_PROJECT_DIR/api/build/jacocoHtml'
 
 stages:
   - build
@@ -24,4 +26,6 @@ test:
 test-frontend:
   stage: test
   image: node
-  script: echo "Frontend moet getest worden"
+  script: 
+    - cd client
+    - npm audit
